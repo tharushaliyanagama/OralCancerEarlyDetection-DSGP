@@ -1,0 +1,212 @@
+/* General Reset */
+body {
+    margin: 0;
+    padding: 0;
+    background-color: #E0E0E0;
+    color: black;
+    font-family: Arial, sans-serif;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-image:url('static\images\background image.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-attachment: fixed;
+}
+
+/* Header Styling */
+header {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 35px 30px;
+    background-color: black;
+    color: white;
+    position: absolute;
+    top: 0;
+    left: 0;
+    box-sizing: border-box;
+    
+}
+
+/* Navigation Links */
+nav {
+    display: flex;
+    gap: 40px;
+    margin-right: 30px;
+}
+
+nav a {
+    color: white;
+    text-decoration: none;
+    font-size: 16px;
+    position: relative;
+    font-weight: bold;
+}
+
+/* Underline Animation */
+nav a::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -3px;
+    width: 100%;
+    height: 2px;
+    background-color: white;
+    transform: scaleX(0);
+    transition: transform 0.3s ease;
+}
+
+nav a:hover::after {
+    transform: scaleX(1);
+}
+
+/* Logo Container */
+.logo-container {
+    display: flex;
+    align-items: center;
+}
+
+.logo {
+    font-size: 24px;
+    font-weight: bold;
+    margin-left: 10px;
+}
+
+/* Main Container */
+.container {
+    color: black;
+    padding: 20px;
+    border-radius: 12px;
+    width: 800px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-top: 1100px;
+    margin-bottom: 20px;
+    background: #c6c3c3; 
+    
+}
+
+
+.container, .about-container, .offer-container {
+    
+    transform: translateY(20px);
+    animation: fadeInUp 1s ease-out forwards;
+    
+}
+.about-container {
+    animation-delay: 1s;
+}
+.offer-container {
+    animation-delay: 3s;
+}
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+.offer-container {
+    
+    color: black;
+    padding: 30px;
+    border-radius: 12px;
+    width: 800px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    opacity: 0.5;
+    background: #c6c3c3; 
+
+
+}
+
+
+/* Title */
+h1 {
+    font-size: 32px;
+    font-weight: bolder;
+    margin-bottom: 15px;
+    color: #0c0c0c;
+}
+
+/* Paragraph */
+p {
+    font-size: 18px;
+    line-height: 1.8;
+    color: #0c0c0c;
+    margin-bottom: 25px;
+    font-weight: bold;
+}
+
+/* Start Process Button */
+.start-button {
+    background-color: orange;
+    color: white;
+    border: none;
+    padding: 12px 30px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 5px;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+}
+
+.start-button:hover {
+    background-color: #bef40d;
+}
+
+.about-container {
+    background-color: rgb(255, 255, 255);
+    color: black;
+    padding: 30px;
+    border-radius: 12px;
+    width: 800px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    opacity: 0.5;
+    background: #c6c3c3; 
+
+}
+
+/* Footer Styling */
+footer {
+    width: 100%;
+    background-color: black;
+    color: white;
+    text-align: center;
+    padding: 15px 0;
+    position: relative;
+    bottom: 0;
+    left: 0;
+}
+
+.footer p {
+    color: white;
+    font-weight: lighter;
+}
+
