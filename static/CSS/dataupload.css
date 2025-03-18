@@ -1,0 +1,256 @@
+body {
+    margin: 0;
+    padding: 0;
+    background-color:#aaa7a7;
+    color: black;
+    font-family: Arial, sans-serif;
+    height: 100vh;
+    overflow-x: hidden;
+    scroll-behavior: smooth;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-weight: bold;
+
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-attachment: fixed;
+}
+
+header {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 35px 30px;
+    background-color: black;
+    color: white;
+    position: absolute;
+    top: 0;
+    left: 0;
+    box-sizing: border-box;
+}
+
+.logo-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.logo {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+nav a {
+    color: white;
+    text-decoration: none;
+    margin-left: 20px;
+    font-size: 16px;
+}
+
+nav a:hover {
+    text-decoration: underline;
+}
+
+.content-container {
+    display: flex;
+    width: 80%;
+    height: 100%; /* This stays */
+    margin-top: 150px;
+    background: rgba(249, 249, 249, 0.2); /* Semi-transparent background */
+    box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+    border-radius: 15px;
+    overflow: hidden;
+    margin-bottom: -450px;
+    opacity: 0.9;
+    
+    /* Glass effect */
+    backdrop-filter: blur(10px); /* Blurring the background */
+    -webkit-backdrop-filter: blur(10px); /* For Safari support */
+    border: 1px solid rgba(255, 255, 255, 0.3); /* Subtle border */
+}
+
+
+.upload-section {
+    width: 50%; /* Increased the width of the upload section */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 20px;
+    padding: 20px;
+}
+
+.upload-placeholder {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+.upload-placeholder img {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+}
+
+.browse-btn {
+    background-color: orange;
+    border: none;
+    padding: 10px 20px;
+    color: white;
+    font-size: 14px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.browse-btn:hover {
+    background-color: darkorange;
+}
+
+.image-container {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+.change-btn {
+    background-color: orange;
+    border: none;
+    padding: 10px 20px;
+    color: white;
+    font-size: 14px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.change-btn:hover {
+    background-color: darkorange;
+}
+
+input[type="file"] {
+    margin: 15px 0;
+}
+
+#preview {
+    margin-top: 15px;
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    display: none;
+}
+
+.form-section {
+    width: 50%; /* Adjusted form section width */
+    padding: 30px;
+    background-color: #c6c3c3;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    overflow-y: auto;
+    max-height: 500px;
+    box-sizing: border-box;
+    height: 100%;
+    opacity: 0.9;
+   margin-top: 20px;
+   border-radius: 3px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    border: 1px solid rgb(94, 92, 92); /* Subtle border */
+    
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+form label {
+    font-weight: bold;
+}
+
+form input, form select {
+    padding: 8px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.submit-btn-container {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.submit-btn {
+    padding: 12px 30px;
+    background-color: rgb(48, 223, 48);
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    border-radius: 5px;
+    transition: backgroundcolor  0.3s ease;
+}
+
+.submit-btn:hover {
+    background-color: #04a133;
+}
+h2 {
+    margin-top: 0;
+    color: #070707;
+    font-size: 24px;
+    align-self: center;
+}
+
+#uploadedImage {
+    display: block;
+    margin: 0 auto;
+    border: 3px solid #ddd;
+    border-radius: 8px;
+}
+
+/* Probability and Caution Box */
+.probability-box {
+    border: 2px solid #333;
+    padding: 15px;
+    margin-bottom: 15px;
+    background-color: #f1f1f1;
+    border-radius: 8px;
+    text-align: center;
+}
+
+.caution-line {
+    height: 20px;
+    border-radius: 5px;
+    margin-top: 10px;
+}
+
+#probabilityText {
+    font-size: 18px;
+    font-weight: bold;
+    margin: 0;
+}
+
+
+
+/* Footer Styling */
+footer {
+    width: 100%;
+    background-color: black;
+    color: white;
+    text-align: center;
+    padding: 15px 0;
+    position:absolute;
+    bottom: 0;
+    left: 0;
+    margin-top: 40px;
+    margin-bottom: -300px;
+}
