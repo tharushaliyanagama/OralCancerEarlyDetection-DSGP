@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OralCheck</title>
+    <link rel="stylesheet" href="reportStyle.css">
+    
+</head>
+<body>
+
+<header>
+    <div class="logo-container">
+        <div class="logo">OncoOral AI</div>
+        <img src="static\images\ribbon3.jpg" alt="Logo" width="40" height="45">
+    </div>
+    <nav>
+        <a href="templates\home.html" target="_blank">Home</a>
+        
+        <a href="contact.html" target="_blank">Contact</a>
+    </nav>
+</header>
+
+<div class="content-container">
+    <!-- Image Display Section -->
+    <section class="upload-section">
+        <h2>Analyzed Image</h2>
+        <img id="uploadedImage" src="heatmap_Example.jpeg" alt="Analyzed Image" style="max-width: 100%; max-height: 300px;">
+    </section>
+
+    <!-- Prediction Results Section -->
+    <section class="form-section">
+        <h2>Prediction Results</h2>
+
+        <!-- Probability and Caution Area -->
+        <div class="probability-box">
+            <p id="probabilityText">Probability: 85%</p>
+            <div class="caution-line" id="cautionLine"></div>
+        </div>
+
+        <!-- Description Area -->
+        <div class="description-box">
+            <div id="descriptionTitle"><strong>Description</strong></div>
+            <p id="descriptionText">
+                This heatmap highlights the areas that were most important for the AI’s classification. The red and yellow regions indicate zones of high attention, meaning the AI found potential signs of abnormality in these areas. These patterns could correspond to lesions, discoloration, or irregular textures commonly associated with oral cancer. Green or blue areas had less influence, indicating the AI considered them less relevant to the prediction.
+            </p>
+        </div>
+    </section>
+</div>
+
+<script src="{{ url_for('static/javascript', filename='report.js')}}"></script>
+
+
+</body>
+
+<footer>
+    <div class="footer">
+        <p>© 2021 OncoOral AI. All rights reserved.</p>
+    </div>
+</footer>
+</html>
