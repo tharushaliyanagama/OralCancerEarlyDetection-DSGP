@@ -1,0 +1,17 @@
+<section class="upload-section">
+    <!-- Before Image Upload -->
+    <div id="uploadPlaceholder" class="upload-placeholder">
+        <img id="fileUpload" src="C:\Users\Sithmi Nimnadi\Desktop\DSGP UI\static\images\file.jpg" alt="File Upload" style="width: 100px; height: 100px;">
+        <p>Upload image here</p>
+        <button class="browse-btn" onclick="document.getElementById('imageUpload').click()">Browse</button>
+    </div>
+
+    <!-- Display Uploaded Image with Change Option -->
+    <div id="imageContainer" class="image-container" style="display: none;">
+        <img id="chosenImage" alt="Chosen Image" style="max-width: 300px; max-height: 300px;">
+        <p>                </p>
+        <button class="change-btn" onclick="changeImage()">Change</button>
+    </div>
+
+    <input type="file" id="imageUpload" accept="image/*" style="display: none;" onchange="previewImage()">
+</section>
