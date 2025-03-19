@@ -76,8 +76,19 @@ nav a:hover::after {
     display: flex;
     justify-content: space-around;
     margin: 20px;
-    margin-top: 180px;
+    margin-top: 360px;
     margin-bottom: 40px;
+
+    /* Glass effect styles */
+    background: rgba(255, 255, 255, 0.2); /* Semi-transparent white background */
+    backdrop-filter: blur(10px); /* Blur effect */
+    -webkit-backdrop-filter: blur(10px); /* For Safari support */
+    border: 1px solid rgba(255, 255, 255, 0.3); /* Subtle border */
+    border-radius: 10px; /* Rounded corners */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    padding: 20px; /* Optional padding inside the container */
+        
+        
     
 }
 
@@ -143,6 +154,34 @@ h2 {
     text-align: center;
 }
 
+/* Style for the Recommendation button container */
+.Recommendation {
+    margin-top:auto; /* Push it to the bottom of the container */
+    text-align: center; /* Center the content */
+    padding: 20px;
+}
+
+/* Style for the button inside the Recommendation section */
+.Recommendation .btn {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #007BFF; /* Blue background */
+    color: white; /* White text */
+    text-decoration: none; /* Remove underline */
+    font-size: 16px;
+    font-weight: bold;
+    border-radius: 5px; /* Rounded corners */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    transition: background-color 0.3s ease; /* Smooth hover effect */
+}
+
+/* Hover effect for the button */
+.Recommendation .btn:hover {
+    background-color: #0056b3; /* Darker blue on hover */
+}
+
+/* Ensure the Recommendation section is at the bottom of the content-container */
+
 /* Footer Styling */
 footer {
     width: 100%;
@@ -153,6 +192,6 @@ footer {
     position:absolute;
     bottom: 0;
     left: 0;
-    margin-top: 40px;
-    margin-bottom: -130px;
+    margin-top: 100px;
+    margin-bottom: -330px;
 }
