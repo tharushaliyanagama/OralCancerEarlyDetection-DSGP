@@ -1,27 +1,44 @@
-function previewImage() {
-    const fileInput = document.getElementById('imageUpload');
-    const imageContainer = document.getElementById('imageContainer');
-    const uploadPlaceholder = document.getElementById('uploadPlaceholder');
-    const chosenImage = document.getElementById('chosenImage');
-    const imageDataInput = document.getElementById('imageData');
+document.addEventListener("DOMContentLoaded", function () {
+    // Retrieve and display form data from localStorage
+    const storedData = localStorage.getItem("patientData");
 
-    const file = fileInput.files[0];
-    if (file) {
-        const reader = new FileReader();
-        reader.onload = function(e) {
-            chosenImage.src = e.target.result;
-            imageContainer.style.display = 'block';
-            uploadPlaceholder.style.display = 'none';
-            imageDataInput.value = e.target.result; // Embed image data in form
-        };
-        reader.readAsDataURL(file);
+    if (storedData) {
+        const patientData = JSON.parse(storedData);
+
+        // Populate the patient-info-container with the retrieved data
+        document.getElementById("age").textContent = patientData.age;
+        document.getElementById("gender").textContent = patientData.gender;
+        document.getElementById("tobacco").textContent = patientData.tobacco;
+        document.getElementById("alcohol").textContent = patientData.alcohol;
+        document.getElementById("status").textContent = patientData.status;
+        document.getElementById("hpv").textContent = patientData.hpv;
+        document.getElementById("continent").textContent = patientData.continent;
     }
-}
 
+    // Image upload functionality
+    const imageUpload = document.getElementById("imageUpload");
+    const chosenImage = document.getElementById("chosenImage");
+    const imageContainer = document.getElementById("imageContainer");
+    const uploadPlaceholder = document.getElementById("uploadPlaceholder");
+
+    imageUpload.addEventListener("change", function () {
+        const file = imageUpload.files[0];
+
+        if (file) {
+            const reader = new FileReader();
+
+            reader.onload = function (e) {
+                chosenImage.src = e.target.result;
+                uploadPlaceholder.style.display = "none";
+                imageContainer.style.display = "block";
+            };
+
+            reader.readAsDataURL(file);
+        }
+    });
+});
+
+// Function to change uploaded image
 function changeImage() {
-    document.getElementById('imageUpload').click();  // Trigger the file input click
-}
-
-function goToAnalyzing() {
-   window.location.href = 'analyze.html';
+    document.getElementById("imageUpload").click();
 }

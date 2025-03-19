@@ -54,50 +54,65 @@ nav a:hover {
     text-decoration: underline;
 }
 
+/* Parent container to hold both sections side by side */
 .content-container {
     display: flex;
-    width: 30%;
-    height: 50%; /* This stays */
-    margin-top: 150px;
-    background: rgba(249, 249, 249, 0.2); /* Semi-transparent background */
-    box-shadow: 0 6px 20px rgba(0,0,0,0.1);
-    border-radius: 15px;
-    overflow: hidden;
-    margin-bottom: -450px;
-    opacity: 0.9;
-    
-    /* Glass effect */
-    backdrop-filter: blur(10px); /* Blurring the background */
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 40px; /* Space between the two containers */
+    margin: 20px;
+    width: 75%;
+    margin-top:300px;
+    height: 90%;
+
+    /* Glass effect styles */
+    background: rgba(255, 255, 255, 0.2); /* Semi-transparent white background */
+    backdrop-filter: blur(10px); /* Blur effect */
     -webkit-backdrop-filter: blur(10px); /* For Safari support */
     border: 1px solid rgba(255, 255, 255, 0.3); /* Subtle border */
+    border-radius: 10px; /* Rounded corners */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    padding: 20px; /* Optional padding inside the container */
 }
 
 
-.upload-section {
-    width: 90%; /* Increased the width of the upload section */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    gap: 20px;
-    padding: 20px;
+/* Style for the patient-info-container */
+.patient-info-container {
+    flex: 1; /* Allow it to take up equal space */
+    padding: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color:#ccc ;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
-
-.upload-placeholder {
+ .patient-info h2 {
+    margin-top: 0;
+    color: #070707;
+    font-size: 24px;
+    align-self: center;
     text-align: center;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 10px;
+ }
+
+/* Style for the upload-section */
+.upload-section {
+    flex: 1; /* Allow it to take up equal space */
+    padding: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #ccc;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-.upload-placeholder img {
-    width: 100px;
-    height: 100px;
-    object-fit: cover;
+/* Ensure images and content fit well */
+.upload-placeholder img,
+.image-container img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 0 auto;
 }
-
 .browse-btn {
+    margin-top: 5px;
     background-color: orange;
     border: none;
     padding: 10px 20px;
@@ -105,6 +120,7 @@ nav a:hover {
     font-size: 14px;
     cursor: pointer;
     border-radius: 5px;
+    margin-left: 150px;
 }
 
 .browse-btn:hover {
@@ -124,9 +140,10 @@ nav a:hover {
     border: none;
     padding: 10px 20px;
     color: white;
-    font-size: 14px;
+    font-size: 16px;
     cursor: pointer;
     border-radius: 5px;
+    margin-top: 10px;
 }
 
 .change-btn:hover {
@@ -196,7 +213,7 @@ form input, form select {
 }
 
 .submit-btn {
-    padding: 12px 30px;
+    padding: 10px 20px;
     background-color: rgb(48, 223, 48);
     color: white;
     border: none;
@@ -204,6 +221,8 @@ form input, form select {
     font-size: 16px;
     border-radius: 5px;
     transition: backgroundcolor  0.3s ease;
+    margin-top: 10px;
+    margin-left: 50px;
 }
 
 .submit-btn:hover {
@@ -221,6 +240,7 @@ h2 {
     margin: 0 auto;
     border: 3px solid #ddd;
     border-radius: 8px;
+
 }
 
 /* Probability and Caution Box */

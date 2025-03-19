@@ -1,27 +1,24 @@
-function previewImage() {
-    const fileInput = document.getElementById('imageUpload');
-    const imageContainer = document.getElementById('imageContainer');
-    const uploadPlaceholder = document.getElementById('uploadPlaceholder');
-    const chosenImage = document.getElementById('chosenImage');
-    const imageDataInput = document.getElementById('imageData');
+document.addEventListener("DOMContentLoaded", function () {
+    const form = document.querySelector("form");
 
-    const file = fileInput.files[0];
-    if (file) {
-        const reader = new FileReader();
-        reader.onload = function(e) {
-            chosenImage.src = e.target.result;
-            imageContainer.style.display = 'block';
-            uploadPlaceholder.style.display = 'none';
-            imageDataInput.value = e.target.result; // Embed image data in form
+    form.addEventListener("submit", function (event) {
+        event.preventDefault(); // Prevent actual form submission
+
+        // Extract form data
+        const formData = {
+            age: document.querySelector("[name='age']").value,
+            gender: document.querySelector("[name='gender']").value,
+            tobacco: document.querySelector("[name='tobacco']").value,
+            alcohol: document.querySelector("[name='alcohol']").value,
+            status: document.querySelector("[name='status']").value,
+            hpv: document.querySelector("[name='hpv']").value,
+            continent: document.querySelector("[name='continent']").value
         };
-        reader.readAsDataURL(file);
-    }
-}
 
-function changeImage() {
-    document.getElementById('imageUpload').click();  // Trigger the file input click
-}
+        // Store form data in localStorage
+        localStorage.setItem("patientData", JSON.stringify(formData));
 
-function goToAnalyzing() {
-window.location.href = 'analyze.html';
-}
+        // Redirect to image upload page
+        window.location.href = "imageupload.html";
+    });
+});

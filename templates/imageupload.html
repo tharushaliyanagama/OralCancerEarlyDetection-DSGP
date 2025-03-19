@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>OncoOral AI</title>
+    <title>OncoOral AI - Image Upload</title>
     <link rel="stylesheet" href="C:\Users\Sithmi Nimnadi\Desktop\DSGP UI\static\CSS\imageupload.css">
 </head>
-<body background="C:\Users\Sithmi Nimnadi\Desktop\DSGP UI\static\images\background image.jpg">
+<body background="C:\Users\Sithmi Nimnadi\Desktop\DSGP UI\static\images\background image.jpg" onload="loadPatientData()">
 
 <header>
     <div class="logo-container">
@@ -22,28 +22,46 @@
 
 <div class="content-container">
 
-<section class="upload-section">
-    <!-- Before Image Upload -->
-    <div id="uploadPlaceholder" class="upload-placeholder">
-        <img id="fileUpload" src="C:\Users\Sithmi Nimnadi\Desktop\DSGP UI\static\images\file.jpg" alt="File Upload Icon" style="width: 100px; height: 100px;">
-        <p>Upload image here</p>
-        <button class="browse-btn" onclick="document.getElementById('imageUpload').click()">Browse</button>
+    <div class="patient-info-container">
+        <!-- Patient Information Display -->
+        <section class="patient-info">
+            <h2>Patient Details</h2>
+            <li><strong>Age:</strong> <span id="age"></span></li><br>
+            <li><strong>Gender:</strong> <span id="gender"></span></li><br>
+            <li><strong>Tobacco Use:</strong> <span id="tobacco"></span></li><br>
+            <li><strong>Alcohol Use:</strong> <span id="alcohol"></span></li><br>
+            <li><strong>Socio-economic Status:</strong> <span id="status"></span></li><br>
+            <li><strong>HPV Status:</strong> <span id="hpv"></span></li><br>
+            <li><strong>Continent:</strong><span id="continent"></span></li>
+        </section>
     </div>
 
-    <!-- Display Uploaded Image with Change Option -->
-    <div id="imageContainer" class="image-container" style="display: none;">
-        <img id="chosenImage" alt="Chosen Image" style="max-width: 300px; max-height: 300px;">
-        <button class="change-btn" onclick="changeImage()">Change</button>
-    </div>
-    <input type="file" id="imageUpload" accept="image/*" style="display: none;" onchange="previewImage()">
-</section>
+    <!-- Image Upload Section -->
+    <section class="upload-section">
+        <div id="uploadPlaceholder" class="upload-placeholder">
+            <img id="fileUpload" src="C:\Users\Sithmi Nimnadi\Desktop\DSGP UI\static\images\file.jpg" alt="File Upload Icon" style="width: 100px; height: 100px;">
+            <p>Upload image here</p>
+            <button class="browse-btn" onclick="document.getElementById('imageUpload').click()">Browse</button>
+        </div>
+
+        <!-- Display Uploaded Image -->
+        <div id="imageContainer" class="image-container" style="display: none;">
+            <img id="chosenImage" alt="Chosen Image" style="max-width: 300px; max-height: 300px;">
+            <button class="change-btn" onclick="changeImage()">Change</button>
+            <button type="submit" class="submit-btn">Submit</button>
+        </div>
+        <input type="file" id="imageUpload" accept="image/*" style="display: none;" onchange="previewImage()">
+       
+    </section>
+
+    
+
 </div>
 
-<button type="submit">Submit</button>
-
-<script src="{{ url_for('static/javascript', filename='imageupload.js') }}"></script>
+<script src="C:\Users\Sithmi Nimnadi\Desktop\DSGP UI\static\javascript\imageupload.js"></script>
 
 </body>
+
 <footer>
     <div class="footer">
         <p>© 2021 OncoOral AI. All rights reserved.</p>
