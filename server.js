@@ -3,12 +3,13 @@ const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const path = require("path");
 const cors = require("cors");
+const multer = require("multer");
 
 const app = express();
 const PORT = 3000;
 app.use(cors());
-
 app.use(bodyParser.json());
+app.use(express.static("uploads")); // Serve uploaded files
 
 // Middleware to parse form data
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -82,21 +83,56 @@ app.post("/signup", async (req, res) => {
       console.error("Signup error: User already exists with this email.");
       return res.status(400).json({ message: "User already exists. Please login." });
     }
-    
 
+    
     // Save new user
     const newUser = new User({ username, password, email });
     await newUser.save();
 
-    // Successful signup - Redirect to dataupload.html
-    res.redirect('/predict');
+    console.log("User signed up successfully:", newUser);
+
+    // Successful signup - Redirect to /predict
+    return res.redirect("/predict");
   } catch (error) {
     console.error("Error saving user:", error.message);
-    res.status(500).json({ message: "Error saving user." });
+    return res.status(500).json({ message: "Error saving user." });
   }
 });
 
-// Start the server
+
+// Temporary in-memory storage for patient data
+let patientData = {};
+
+// Handle patient data submission
+app.post("/submit-patient-data", (req, res) => {
+    patientData = req.body;
+    console.log("Patient Data Received:", patientData);
+    res.json({ message: "Patient data saved successfully!" });
+});
+
+// Multer setup for image upload
+const storage = multer.diskStorage({
+    destination: "./uploads/",
+    filename: (req, file, cb) => {
+        cb(null, Date.now() + path.extname(file.originalname)); // Unique filename
+    }
+});
+
+const upload = multer({ storage });
+
+// Handle image upload
+app.post("/upload-image", upload.single("image"), (req, res) => {
+    if (!req.file) {
+        return res.status(400).json({ message: "No file uploaded" });
+    }
+    res.json({ imageUrl: `/uploads/${req.file.filename}` });
+});
+
+// Get saved patient data
+app.get("/get-patient-data", (req, res) => {
+    res.json(patientData);
+});
+
 app.listen(PORT, () => {
-  console.log(`Server is running on http://localhost:${PORT}`);
+    console.log(`Server running on http://localhost:${PORT}`);
 });
