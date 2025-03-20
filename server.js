@@ -34,20 +34,24 @@ const userSchema = new mongoose.Schema({
   email: { type: String, required: true, unique: true },
 });
 
-const User = mongoose.model("Username", userSchema);
+const User = mongoose.model("User", userSchema);
 
+// Serve signup page
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'templates', 'signup.html'));
+});
 
 // Serve login page
 app.get('/login', (req, res) => {
   res.sendFile(path.join(__dirname, 'templates', 'login.html'));
 });
 
-// Serve the signup page (if needed)
- app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'templates', 'signup.html'));
- });
+// Serve dataupload page
+app.get('/predict', (req, res) => {
+  res.sendFile(path.join(__dirname, 'templates', 'dataupload.html'));
+});
 
- // Handle login
+// Handle login
 app.post("/login", async (req, res) => {
   const { email, password } = req.body;
 
@@ -59,16 +63,15 @@ app.post("/login", async (req, res) => {
       return res.status(401).json({ message: "Invalid email or password." });
     }
 
-    // Successful login
-    res.status(200).json({ message: "Login successful!" });
+    // Successful login - Redirect to dataupload.html
+    res.redirect('/predict');
   } catch (error) {
     console.error("Login error:", error.message);
     res.status(500).json({ message: "An error occurred during login." });
   }
 });
 
-
-// Route to handle signup form submission
+// Handle signup
 app.post("/signup", async (req, res) => {
   const { username, password, email } = req.body;
 
@@ -76,15 +79,17 @@ app.post("/signup", async (req, res) => {
     // Check if user already exists
     const existingUser = await User.findOne({ email });
     if (existingUser) {
+      console.error("Signup error: User already exists with this email.");
       return res.status(400).json({ message: "User already exists. Please login." });
     }
+    
 
     // Save new user
     const newUser = new User({ username, password, email });
     await newUser.save();
-    
-    // Respond with success
-    res.status(201).json({ message: "User signed up successfully! Go to Login." });
+
+    // Successful signup - Redirect to dataupload.html
+    res.redirect('/predict');
   } catch (error) {
     console.error("Error saving user:", error.message);
     res.status(500).json({ message: "Error saving user." });

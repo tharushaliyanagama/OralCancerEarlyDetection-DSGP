@@ -253,6 +253,14 @@ p {
     font-weight: bold;
 }
 
+.footer p {
+    
+        margin-top: 15px;
+        font-size: 14px;
+        font-weight: bold;
+        color: white;
+}
+
 /* Footer Styling */
 footer {
     width: 100%;
