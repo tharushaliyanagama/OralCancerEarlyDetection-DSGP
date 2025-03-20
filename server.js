@@ -37,10 +37,36 @@ const userSchema = new mongoose.Schema({
 const User = mongoose.model("Username", userSchema);
 
 
+// Serve login page
+app.get('/login', (req, res) => {
+  res.sendFile(path.join(__dirname, 'templates', 'login.html'));
+});
+
 // Serve the signup page (if needed)
  app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'templates', 'signup.html'));
  });
+
+ // Handle login
+app.post("/login", async (req, res) => {
+  const { email, password } = req.body;
+
+  try {
+    // Check if user exists
+    const user = await User.findOne({ email });
+
+    if (!user || user.password !== password) {
+      return res.status(401).json({ message: "Invalid email or password." });
+    }
+
+    // Successful login
+    res.status(200).json({ message: "Login successful!" });
+  } catch (error) {
+    console.error("Login error:", error.message);
+    res.status(500).json({ message: "An error occurred during login." });
+  }
+});
+
 
 // Route to handle signup form submission
 app.post("/signup", async (req, res) => {
