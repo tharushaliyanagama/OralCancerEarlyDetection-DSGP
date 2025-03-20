@@ -2,7 +2,6 @@
 body {
     margin: 0;
     padding: 0;
-    background-color: #E0E0E0;
     color: black;
     font-family: Arial, sans-serif;
     height: 100vh;
@@ -10,7 +9,8 @@ body {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    
+    font-weight: bold;
+   
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
@@ -45,7 +45,6 @@ nav a {
     text-decoration: none;
     font-size: 16px;
     position: relative;
-    font-weight: bold;
 }
 
 /* Underline Animation */
@@ -79,35 +78,36 @@ nav a:hover::after {
 
 /* Main Container */
 .container {
+    background-color: rgb(255, 255, 255);
     color: black;
-    padding: 20px;
+    padding: 30px;
     border-radius: 12px;
-    width: 800px;
+    width: 1000px;
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
     text-align: center;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    margin-top: 1100px;
-    margin-bottom: 20px;
-    background: #c6c3c3; 
-    
+    margin-top: 80px;
 }
 
+.signup-box {
+    background: rgba(255, 255, 255, 0.2); /* Semi-transparent white */
+    padding: 30px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(10px); /* Blur effect for glassmorphism */
+    -webkit-backdrop-filter: blur(10px); /* Safari support */
+    border-radius: 8px;
+    border: 3px solid rgba(247, 242, 242, 0.3); /* Subtle border */
+    width: 300px;
+    text-align: center;
+    margin-top: 125px;
 
-.container, .about-container, .offer-container {
-    
     transform: translateY(20px);
-    animation: fadeInUp 1s ease-out forwards;
-    
+    animation: fadeInUp 0.5s ease-out forwards;
 }
-.about-container {
-    animation-delay: 1s;
-}
-.offer-container {
-    animation-delay: 3s;
-}
+
 @keyframes fadeInUp {
     from {
         opacity: 0;
@@ -118,89 +118,53 @@ nav a:hover::after {
         transform: translateY(0);
     }
 }
-.offer-container {
-    
-    color: black;
-    padding: 30px;
-    border-radius: 12px;
-    width: 800px;
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    margin-top: 20px;
+
+h2 {
     margin-bottom: 20px;
-    opacity: 0.5;
-    background: #c6c3c3; 
-
-
+    color: black;
 }
 
-
-/* Title */
-h1 {
-    font-size: 32px;
-    font-weight: bolder;
+.input-field {
     margin-bottom: 15px;
-    color: #0c0c0c;
+    text-align: left;
 }
 
-/* Paragraph */
-p {
-    font-size: 18px;
-    line-height: 1.8;
-    color: #0c0c0c;
-    margin-bottom: 25px;
-    font-weight: bold;
-}
 
-.footer p {
-    
-        margin-top: 15px;
-        font-size: 14px;
-        font-weight: bold;
-}
 
-/* Start Process Button */
-.start-button {
-    background-color: orange;
-    color: white;
-    border: none;
-    padding: 12px 30px;
-    font-size: 16px;
-    font-weight: bold;
-    cursor: pointer;
+input[type="text"], input[type="password"] , input[type="email"] {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
     border-radius: 5px;
-    text-decoration: none;
-    transition: background-color 0.3s ease;
 }
 
-.start-button:hover {
+.signup-box a {
+    color: #f1f5f8;
+    text-decoration: none;
+}
+
+.button-container {
+    margin-top: 10px;
+}
+
+button {
+    background-color: orange;
+    color: rgb(19, 18, 18);
+    border: none;
+    padding: 10px 40px 10px 40px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button:hover {
     background-color: #bef40d;
 }
 
-.about-container {
-    background-color: rgb(255, 255, 255);
-    color: black;
-    padding: 30px;
-    border-radius: 12px;
-    width: 800px;
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    margin-top: 20px;
-    margin-bottom: 20px;
-    opacity: 0.5;
-    background: #c6c3c3; 
-
+p {
+    margin-top: 15px;
+    font-size: 14px;
 }
 
-/* Footer Styling */
 footer {
     width: 100%;
     background-color: black;
@@ -210,10 +174,6 @@ footer {
     position: relative;
     bottom: 0;
     left: 0;
+    margin-top: 40px;
+    margin-bottom: -250px;
 }
-
-.footer p {
-    color: white;
-    font-weight: lighter;
-}
-

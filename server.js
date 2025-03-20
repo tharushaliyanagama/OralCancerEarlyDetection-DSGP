@@ -14,8 +14,9 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 // Serve static files (CSS, images, etc.)
-app.use(express.static(path.join(__dirname, "static")));
+app.use(express.static(path.join(__dirname, "static/CSS")));
 app.use(express.static(path.join(__dirname, "templates")));
+app.use(express.static(path.join(__dirname, "static/images")));
 
 // Connect to MongoDB
 mongoose

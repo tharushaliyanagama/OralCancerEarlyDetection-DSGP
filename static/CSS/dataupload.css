@@ -245,7 +245,13 @@ h2 {
     margin: 0;
 }
 
-
+p {
+    font-size: 18px;
+    line-height: 1.8;
+    color: #0c0c0c;
+    margin-bottom: 25px;
+    font-weight: bold;
+}
 
 /* Footer Styling */
 footer {
