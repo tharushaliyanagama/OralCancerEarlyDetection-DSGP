@@ -4,20 +4,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Welcome to OncoOral AI</title>
-    <link rel="stylesheet" href="\home.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='CSS/home.css') }}">
 </head>
+<body background="{{ url_for('static', filename='images/background image.jpg') }}">
+
 <header>
     <div class="logo-container">
         <div class="logo">OncoOral AI</div>
-        <img src="\ribbon3.jpg" alt="Logo" width="40" height="45">
+        <img src="{{ url_for('static', filename='images/ribbon3.jpg') }}" alt="Logo" width="40" height="45">
     </div>
     <nav>
-        <a href="\home.html" target="_blank">Home</a>
-        <a href="\login.html" target="_blank">Login</a>
-        <a href="contact.html" target="_blank">Contact</a>
+        <a href="{{url_for('home')}}">Home</a>
+        <a href="{{url_for('login')}}">Login</a>
+        <a href="{{url_for('contact')}}">Contact</a>
     </nav>
 </header>
-<body background="\background image.jpg">
     <div class="container">
         <h1>WELCOME </h1>
         <p><strong>Your trusted AI-powered solution for early oral cancer detection and diagnosis.</strong></p>
@@ -44,7 +45,7 @@
             Your health, your peace of mind, all in one click. 
             We are committed to protecting your <strong>privacy</strong> and ensuring your <strong>data confidentiality</strong> at every step.</p>
             
-        <a href="\login.html" class="start-button" target="_blank"> NEXT</a>
+        <a href="{{url_for('login')}}" class="start-button" target="_blank"> NEXT</a>
     </div>
    
 </body>

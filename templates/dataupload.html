@@ -1,24 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>OncoOral AI</title>
-    <link rel="stylesheet" href="\dataupload.css">
-</head>
-<body background="\background image.jpg">
-
-<header>
-    <div class="logo-container">
-        <div class="logo">OncoOral AI</div>
-        <img src="\ribbon3.jpg" alt="Logo" width="40" height="45">
-    </div>
-    <nav>
-        <a href="\home.html" target="_blank">Home</a>
-        <a href="\login.html" target="_blank">Login</a>
-        <a href="contact.html" target="_blank">Contact</a>
-    </nav>
-</header>
+    <head>
+        <title>OralCheck AI</title>
+        <link rel="stylesheet" href="{{ url_for('static', filename='CSS/dataupload.css') }}">
+    </head>
+    <body background="{{ url_for('static', filename='images/background image.jpg') }}">
+    
+    <header>
+        <div class="logo-container">
+            <div class="logo">OncoOral AI</div>
+            <img src="{{ url_for('static', filename='images/ribbon3.jpg') }}" alt="Logo" width="40" height="45">
+        </div>
+        <nav>
+            <a href="{{url_for('home')}}">Home</a>
+            <a href="{{url_for('login')}}">Login</a>
+            <a href="{{url_for('contact')}}">Contact</a>
+        </nav>
+    </header>
 
 <div class="content-container">
      <section class="form-section">
@@ -78,7 +76,7 @@
         
         </form>
 
-        <form action="\imageupload.html" method="GET">
+        <form action="{{url_for('imageupload')}}" method="GET">
             <div class="submit-btn-container">
                 <button type="submit" class="submit-btn">Next</button>
             </div>
@@ -86,7 +84,7 @@
     </section>
 </div>
 
-<script src="{{ url_for('static/javascript', filename='dataupload.js')}}"></script>
+<script src="{{ url_for('static', filename='javascript/dataupload.js')}}"></script>
 
 </body>
 

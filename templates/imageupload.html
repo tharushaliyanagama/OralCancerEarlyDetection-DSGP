@@ -1,52 +1,38 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>OncoOral AI - Image Upload</title>
-    <link rel="stylesheet" href="\imageupload.css">
-</head>
-<body background="\background image.jpg" onload="loadPatientData()">
-
-<header>
-    <div class="logo-container">
-        <div class="logo">OncoOral AI</div>
-        <img src="\ribbon3.jpg" alt="Logo" width="40" height="45">
-    </div>
-    <nav>
-        <a href="\home.html" target="_blank">Home</a>
-        <a href="\login.html" target="_blank">Login</a>
-        <a href="contact.html" target="_blank">Contact</a>
-    </nav>
-</header>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>OncoOral AI - Image Upload</title>
+        <link rel="stylesheet" href="{{ url_for('static', filename='CSS/imageupload.css') }}">
+    </head>
+    <body background="{{ url_for('static', filename='images/background image.jpg') }}">
+    
+    <header>
+        <div class="logo-container">
+            <div class="logo">OncoOral AI</div>
+            <img src="{{ url_for('static', filename='images/ribbon3.jpg') }}" alt="Logo" width="40" height="45">
+        </div>
+        <nav>
+            <a href="{{url_for('home')}}">Home</a>
+            <a href="{{url_for('login')}}">Login</a>
+            <a href="{{url_for('contact')}}">Contact</a>
+        </nav>
+    </header>
 
 <div class="content-container">
-
-    <div class="patient-info-container">
-        <!-- Patient Information Display -->
-        <section class="patient-info">
-            <h2>Patient Details</h2>
-            <li><strong>Age:</strong> <span id="age"></span></li><br>
-            <li><strong>Gender:</strong> <span id="gender"></span></li><br>
-            <li><strong>Tobacco Use:</strong> <span id="tobacco"></span></li><br>
-            <li><strong>Alcohol Use:</strong> <span id="alcohol"></span></li><br>
-            <li><strong>Socio-economic Status:</strong> <span id="status"></span></li><br>
-            <li><strong>HPV Status:</strong> <span id="hpv"></span></li><br>
-            <li><strong>Continent:</strong><span id="continent"></span></li>
-        </section>
-    </div>
 
     <!-- Image Upload Section -->
     <section class="upload-section">
         <div id="uploadPlaceholder" class="upload-placeholder">
-            <img id="fileUpload" src="\file.jpg" alt="File Upload Icon" style="width: 100px; height: 100px;">
+            <img id="fileUpload" src="{{ url_for('static', filename='images/file.jpg') }}" alt="File Upload Icon" style="width: 200px; height: 200px;">
             <p>Upload image here</p>
             <button class="browse-btn" onclick="document.getElementById('imageUpload').click()">Browse</button>
         </div>
 
         <!-- Display Uploaded Image -->
         <div id="imageContainer" class="image-container" style="display: none;">
-            <img id="chosenImage" alt="Chosen Image" style="max-width: 300px; max-height: 300px;">
+            <img id="chosenImage" alt="Chosen Image" style="max-width: 400px; max-height: 400px;">
             <button class="change-btn" onclick="changeImage()">Change</button>
             <button type="submit" class="submit-btn">Submit</button>
         </div>
@@ -58,7 +44,28 @@
 
 </div>
 
-<script src="{{ url_for('static/javascript', filename='imageupload.js')}}"></script>
+<script>
+    function previewImage() {
+    const input = document.getElementById('imageUpload');
+    const imageContainer = document.getElementById('imageContainer');
+    const uploadPlaceholder = document.getElementById('uploadPlaceholder');
+    const chosenImage = document.getElementById('chosenImage');
+
+    if (input.files && input.files[0]) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            chosenImage.src = e.target.result;
+            imageContainer.style.display = 'block';
+            uploadPlaceholder.style.display = 'none';
+        };
+        reader.readAsDataURL(input.files[0]);
+    }
+}
+
+function changeImage() {
+    document.getElementById('imageUpload').click();
+}
+</script>
 
 </body>
 

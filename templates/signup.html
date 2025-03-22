@@ -2,94 +2,49 @@
 <html lang="en">
 <head>
     <title>OralCheck - Sign Up</title>
-    <link rel="stylesheet" href="\signup.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='CSS/signup.css') }}">
 </head>
-<body background="\background image.jpg">
+<body background="{{ url_for('static', filename='images/background image.jpg') }}">
 
 <header>
     <div class="logo-container">
         <div class="logo">OncoOral AI</div>
-        <img src="\ribbon3.jpg" alt="Logo" width="40" height="45">
+        <img src="{{ url_for('static', filename='images/ribbon3.jpg') }}" alt="Logo" width="40" height="45">
     </div>
     <nav>
-        <a href="\home.html" target="_blank">Home</a>
-        <a href="\login.html" target="_blank">Login</a>
-        <a href="\contact.html" target="_blank">Contact</a>
+        <a href="{{url_for('home')}}">Home</a>
+        <a href="{{url_for('login')}}">Login</a>
+        <a href="{{url_for('contact')}}">Contact</a>
     </nav>
 </header>
 
-    <div class="signup-box">
-        <h2>Sign Up</h2>
-        <form action="/signup" method="POST" id="signupForm">
+<div class="signup-box">
+    <h2>Sign Up</h2>
 
-            <div class="input-field">
-                <input type="email" id="email" name="email" required placeholder="Email">
-            </div>
+    <!-- Display message here -->
+    {% if message %}
+        <p>{{ message }}</p>
+    {% endif %}
 
-            <div class="input-field">
-                <input type="text" id="username" name="username" required placeholder="Username">
-            </div>
-
-            <div class="input-field">
-                <input type="password" id="password" name="password" required placeholder="Password">
-            </div>
-
-            <div class="input-field">
-                <input type="password" id="confirm-password" name="confirm-password" required placeholder="Confirm Password">
-            </div>
-
-            <div class="button-container">
-                <button type="submit">Create Account</button>
-            </div>
-
-            <p>Already have an account? <a href="\login.html">Login here</a></p>
-        </form>
-    </div>
-
-<script>
-    async function signupUser(event) {
-        event.preventDefault();  // Prevent default form submission
-        
-        const email = document.getElementById("email").value;
-        const username = document.getElementById("username").value;
-        const password = document.getElementById("password").value;
-        const confirmPassword = document.getElementById("confirm-password").value;
-
-        if (password !== confirmPassword) {
-            alert("Passwords do not match");
-        } else {
-            try {
-                const response = await fetch("http://localhost:3000/signup", {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify({
-                        email: email,
-                        username: username,
-                        password: password,
-                    }),
-                });
-
-                const data = await response.json();
-
-                if (response.ok) {
-                    // If successful, inform the user and redirect to login
-                    alert(data.message);
-                    window.location.href = "C:/Users/Sithmi Nimnadi/Desktop/DSGP UI/templates/login.html";  // Redirect to login
-                } else {
-                    // Handle errors if user already exists or any other issue
-                    alert(data.message);
-                }
-            } catch (error) {
-                console.error('Error:', error);
-                alert('Error occurred while signing up. Please try again later.');
-            }
-        }
-    }
-
-    document.getElementById('signupForm').addEventListener('submit', signupUser);
-</script>
+    <form action="/signup" method="POST" id="signupForm">
+        <div class="input-field">
+            <input type="email" id="email" name="email" required placeholder="Email">
+        </div>
+        <div class="input-field">
+            <input type="text" id="username" name="username" required placeholder="Username">
+        </div>
+        <div class="input-field">
+            <input type="password" id="password" name="password" required placeholder="Password">
+        </div>
+        <div class="input-field">
+            <input type="password" id="confirm-password" name="confirm-password" required placeholder="Confirm Password">
+        </div>
+        <div class="button-container">
+            <button type="submit">Create Account</button>
+        </div>
+        <p>Already have an account? <a href="{{url_for('login')}}">Login Here</a></p>
+    </form>
+</div>
 
 <footer>
     <div class="footer">

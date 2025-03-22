@@ -77,9 +77,9 @@ nav a:hover {
     align-items: flex-start;
     gap: 40px; /* Space between the two containers */
     margin: 20px;
-    width: 75%;
-    margin-top:300px;
-    height: 90%;
+    width: auto;
+    margin:200px auto;
+    height: auto;
 
     /* Glass effect styles */
     background: rgba(255, 255, 255, 0.2); /* Semi-transparent white background */
@@ -89,25 +89,12 @@ nav a:hover {
     border-radius: 10px; /* Rounded corners */
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow */
     padding: 20px; /* Optional padding inside the container */
+    background-size: cover; /* Ensure the background covers the entire area */
+    background-position: center; /* Keep the background centered */
+    background-repeat: no-repeat;
 }
 
 
-/* Style for the patient-info-container */
-.patient-info-container {
-    flex: 1; /* Allow it to take up equal space */
-    padding: 15px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    background-color:#ccc ;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
- .patient-info h2 {
-    margin-top: 0;
-    color: #070707;
-    font-size: 30px;
-    align-self: center;
-    text-align: center;
- }
 
 /* Style for the upload-section */
 .upload-section {
@@ -125,10 +112,11 @@ nav a:hover {
     max-width: 100%;
     height: auto;
     display: block;
-    margin: 0 auto;
+    margin-top: 40px;
+    margin-left: 190px;
+    margin-right :190px;;
 }
 .browse-btn {
-    margin-top: 5px;
     background-color: orange;
     border: none;
     padding: 10px 20px;
@@ -136,7 +124,8 @@ nav a:hover {
     font-size: 14px;
     cursor: pointer;
     border-radius: 5px;
-    margin-left: 150px;
+    display: block; 
+    margin: 20px auto;
 }
 
 .browse-btn:hover {
@@ -181,47 +170,7 @@ input[type="file"] {
     display: none;
 }
 
-.form-section {
-    width: 94%; /* Adjusted form section width */
-    padding: 30px;
-    background-color: #c6c3c3;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    overflow-y: auto;
-    max-height: 1000px;
-    box-sizing: border-box;
-    height: 95%;
-    opacity: 0.9;
-   margin-top: 20px;
-   border-radius: 3px;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-    border: 1px solid rgb(94, 92, 92); /* Subtle border */
-    margin-left: 20px;
-    margin-right: -150px;
-    
-    
-}
 
-
-form {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-    margin-bottom: 20px;
-    
-}
-
-form label {
-    font-weight: bold;
-}
-
-form input, form select {
-    padding: 8px;
-    font-size: 14px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-}
 
 .submit-btn-container {
     margin-top: 20px;
@@ -259,30 +208,6 @@ h2 {
 
 }
 
-/* Probability and Caution Box */
-.probability-box {
-    border: 2px solid #333;
-    padding: 15px;
-    margin-bottom: 15px;
-    background-color: #f1f1f1;
-    border-radius: 8px;
-    text-align: center;
-}
-
-.caution-line {
-    height: 20px;
-    border-radius: 5px;
-    margin-top: 10px;
-}
-
-#probabilityText {
-    font-size: 18px;
-    font-weight: bold;
-    margin: 0;
-}
-
-
-
 /* Footer Styling */
 footer {
     width: 100%;
@@ -296,6 +221,11 @@ footer {
     margin-top: 40px;
     margin-bottom: -300px;
 }
+
+p, h2, label, input, select, #probabilityText {
+    text-align: center;
+}
+
 
 
 
