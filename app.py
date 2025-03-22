@@ -1,5 +1,5 @@
-from flask import Flask, request, render_template, redirect, url_for
-from pymongo import MongoClient, errors
+from flask import Flask, request, render_template, redirect, url_for #type: ignore
+from pymongo import MongoClient, errors  #type: ignore
 import re
 
 app = Flask(__name__)
