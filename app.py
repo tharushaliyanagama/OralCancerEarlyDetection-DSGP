@@ -1,4 +1,4 @@
-from flask import Flask, request, render_template, redirect, url_for
+from flask import Flask, request, render_template, redirect, url_for, jsonify
 from pymongo import MongoClient, errors
 import re
 import numpy as np
@@ -14,7 +14,7 @@ collection = db['users']
 
 # Check MongoDB connection
 try:
-    client.server_info()
+    #client.server_info()
     print("Connected to MongoDB successfully.")
 except errors.ServerSelectionTimeoutError as err:
     print("Failed to connect to MongoDB:", err)
@@ -105,43 +105,69 @@ with open("models/scaler.pkl", "rb") as f:
 
 with open("models/feature_names.pkl", "rb") as f:
     feature_names = pickle.load(f)
+model_features = feature_names[:-1]
 
 with open("models/Random_Forest_Classifier.pkl", "rb") as f:
     model_rf = pickle.load(f)
 
+# Mapping of prediction to risk levels
 risk_mapping = {0: "Low Risk", 1: "Medium Risk", 2: "High Risk"}
 
 @app.route('/predict', methods=['POST'])
 def predict():
-    gender = request.form['gender']
-    tobacco = request.form['tobacco']
-    alcohol = request.form['alcohol']
-    hpv = request.form['hpv']
-    socioeconomic = request.form['socioeconomic']
-    age_group = request.form['age_group']
-    
-    gender_map = {"Male": 0, "Female": 1}
-    yes_no_map = {"Yes": 1, "No": 0}
-    socioeconomic_map = {"Low": 0, "Middle": 1, "High": 2}
-    age_group_map = {"Young": 0, "Middle": 1, "Older": 2}
+    try:
+        # Get form data
+        gender = request.form.get('gender')
+        tobacco = request.form.get('tobacco')
+        alcohol = request.form.get('alcohol')
+        hpv = request.form.get('hpv')
+        socioeconomic = request.form.get('socioeconomic')
+        age_group = request.form.get('age_group')
+        continent = request.form.get('continent')
 
-    input_data = {
-        "Gender_Male": gender_map[gender],
-        "Tobacco_Use_Yes": yes_no_map[tobacco],
-        "Alcohol_Use_Yes": yes_no_map[alcohol],
-        "HPV_Related_Yes": yes_no_map[hpv],
-        "Socioeconomic_Status_Low": 1 if socioeconomic == "Low" else 0,
-        "Age_group_Middle": 1 if age_group == "Middle" else 0
-    }
+        print(gender, continent, age_group, socioeconomic, tobacco, alcohol, hpv)
 
-    input_df = pd.DataFrame([input_data])
-    input_df = input_df.reindex(columns=feature_names[:-1], fill_value=0)
-    input_scaled = scaler.transform(input_df)
+        # Mappings
+        gender_map = {'male': 0, 'female': 1}
+        tobacco_map = {'yes': 1, 'no': 0}
+        alcohol_map = {'yes': 1, 'no': 0}
+        hpv_map = {'yes': 1, 'no': 0}
+        socioeconomic_map = {'low': 0, 'middle': 1, 'high': 2}
+        age_group_map = {'young': 0, 'middle': 1, 'older': 2}
 
-    prediction = model_rf.predict(input_scaled)[0]
-    predicted_risk = risk_mapping.get(prediction, "Unknown")
+        user_data = {
+            'Gender': gender_map.get(gender, 0),
+            'Tobacco_Use_Yes': tobacco_map.get(tobacco, 0),
+            'Alcohol_Use_Yes': alcohol_map.get(alcohol, 0),
+            'HPV_Related_Yes': hpv_map.get(hpv, 0),
+            'Socioeconomic_Status_Low': 1 if socioeconomic == "Low" else 0,
+            'Age_group': 1 if age_group == "Middle" else 0
+        }
 
-    return render_template('dataupload.html', prediction=predicted_risk)
+        # Convert user data to DataFrame and align with model features
+        input_df = pd.DataFrame([user_data])
+
+        # Reindex to match the model features
+        input_df = input_df.reindex(columns=model_features, fill_value=0)
+
+        # Scale the input data
+        input_scaled = scaler.transform(input_df)
+
+        # Predict the risk using the Random Forest model
+        predicted_risk = model_rf.predict(input_scaled)[0]  # Get the predicted value
+
+        # Map the prediction to a risk level
+        risk_level = risk_mapping.get(predicted_risk, "Unknown")
+
+        print("Predicted Risk Level:", risk_level)
+
+        return jsonify({"prediction": risk_level})
+
+    except Exception as e:
+        return jsonify({"error": str(e)})
+
+
+   
 
 if __name__ == '__main__':
     app.run(debug=True)

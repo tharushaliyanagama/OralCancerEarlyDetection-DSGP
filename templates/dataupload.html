@@ -1,96 +1,95 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <title>OralCheck AI</title>
-        <link rel="stylesheet" href="{{ url_for('static', filename='CSS/dataupload.css') }}">
-    </head>
-    <body background="{{ url_for('static', filename='images/background image.jpg') }}">
-    
-    <header>
-        <div class="logo-container">
-            <div class="logo">OncoOral AI</div>
-            <img src="{{ url_for('static', filename='images/ribbon3.jpg') }}" alt="Logo" width="40" height="45">
-        </div>
-        <nav>
-            <a href="{{url_for('home')}}">Home</a>
-            <a href="{{url_for('login')}}">Login</a>
-            <a href="{{url_for('contact')}}">Contact</a>
-        </nav>
-    </header>
+<head>
+    <title>OralCheck AI</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='CSS/dataupload.css') }}">
+</head>
+<body background="{{ url_for('static', filename='images/background image.jpg') }}">
+
+<header>
+    <div class="logo-container">
+        <div class="logo">OncoOral AI</div>
+        <img src="{{ url_for('static', filename='images/ribbon3.jpg') }}" alt="Logo" width="40" height="45">
+    </div>
+    <nav>
+        <a href="{{url_for('home')}}">Home</a>
+        <a href="{{url_for('login')}}">Login</a>
+        <a href="{{url_for('contact')}}">Contact</a>
+    </nav>
+</header>
 
 <div class="content-container">
-     <section class="form-section">
+    <section class="form-section">
         <h2>Patient Information</h2>
-        <form action="/predict" method="POST">
+        <form id="prediction-form">
             <label>Age:</label>
-            <select name="age" required>
+            <select name="age_group" required>
                 <option value="">Select</option>
-                <option>Young</option>
-                <option>Middle</option>
-                <option>older</option>
+                <option value="young">Young</option>
+                <option value="middle">Middle</option>
+                <option value="older">Older</option>
             </select>
-           
 
             <label>Gender:</label>
             <select name="gender" required>
                 <option value="">Select</option>
-                <option>Female</option>
-                <option>Male</option>
+                <option value="female">Female</option>
+                <option value="male">Male</option>
             </select>
 
             <label>Tobacco Use:</label>
             <select name="tobacco" required>
                 <option value="">Select</option>
-                <option>Yes</option>
-                <option>No</option>
+                <option value="yes">Yes</option>
+                <option value="no">No</option>
             </select>
 
             <label>Alcohol Use:</label>
             <select name="alcohol" required>
                 <option value="">Select</option>
-                <option>Yes</option>
-                <option>No</option>
+                <option value="yes">Yes</option>
+                <option value="no">No</option>
             </select>
 
             <label>Socio-economic Status:</label>
-            <select name="status" required>
+            <select name="socioeconomic" required>
                 <option value="">Select</option>
-                <option>High</option>
-                <option>Moderate</option>
-                <option>Low</option>
+                <option value="high">High</option>
+                <option value="middle">Middle</option>
+                <option value="low">Low</option>
             </select>
+
+            
+
+
 
             <label>HPV (Human Papillomavirus) Status:</label>
             <select name="hpv" required>
                 <option value="">Select</option>
-                <option>Yes</option>
-                <option>No</option>
+                <option value="yes">Yes</option>
+                <option value="no">No</option>
             </select>
 
-            <label>Continent:</label>
+            <label>Continent :</label>
             <select name="continent" required>
                 <option value="">Select</option>
-                <option>Asia</option>
-                <option>Africa</option>
-                <option>South America</option>
-                <option>North America</option>
-                <option>Europe</option>
+                <option value="asia">Asia</option>
+                <option value="europe">Europe</option>
+                <option value="africa">Africa</option>
+                <option value="north america">North America</option>
+                <option value="south america">South America</option>
             </select>
 
-            <input type="hidden" name="imageData" id="imageData">
-              
-            <!-- Submit Button -->
             <div class="submit-btn-container">
-                <button type="submit" class="submit-btn">Get Prediction</button>
+                <button type="submit" class="submit-btn" value="Predict Risk">Get Prediction</button>
             </div>
         </form>
 
-        <!-- Space to Display Prediction -->
         <div id="prediction-result" class="prediction-result">
             <h3>Prediction Result:</h3>
             <p id="prediction-text">Your prediction will appear here after submission.</p>
         </div>
-    
+
         <form action="{{url_for('imageupload')}}" method="GET">
             <div class="submit-btn-container">
                 <button type="submit" class="submit-btn">Next</button>
@@ -99,7 +98,34 @@
     </section>
 </div>
 
-<script src="{{ url_for('static', filename='javascript/dataupload.js')}}"></script>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const form = document.getElementById("prediction-form");
+
+    form.addEventListener("submit", function (event) {
+        event.preventDefault(); // Prevent form from submitting the default way
+
+        const formData = new FormData(form);
+
+        fetch("/predict", {
+            method: "POST",
+            body: formData
+        })
+        .then(response => response.json())  // Convert response to JSON
+        .then(data => {
+            if (data.prediction) {
+                document.getElementById("prediction-text").textContent = "Risk Level: " + data.prediction;
+            } else if (data.error) {
+                document.getElementById("prediction-text").textContent = "Error: " + data.error;
+            }
+        })
+        .catch(error => {
+            document.getElementById("prediction-text").textContent = "Prediction failed. Try again.";
+            console.error("Error:", error);
+        });
+    });
+});
+</script>
 
 </body>
 
