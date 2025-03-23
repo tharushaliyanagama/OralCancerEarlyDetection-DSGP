@@ -1,17 +1,19 @@
-from flask import Flask, request, render_template, redirect, url_for #type: ignore
-from pymongo import MongoClient, errors  #type: ignore
+from flask import Flask, request, render_template, redirect, url_for
+from pymongo import MongoClient, errors
 import re
+import numpy as np
+import pandas as pd
+import pickle
 
 app = Flask(__name__)
 
 # Connect to MongoDB
 client = MongoClient('mongodb+srv://sithmi:ef76hPUdVohpVAZX@cluster0.s4n7e.mongodb.net/User_Details?retryWrites=true&w=majority')
 db = client['User_Details']
-collection = db['users']  # Use the 'users' collection
+collection = db['users']
 
 # Check MongoDB connection
 try:
-    # Attempt to get server info to confirm connection
     client.server_info()
     print("Connected to MongoDB successfully.")
 except errors.ServerSelectionTimeoutError as err:
@@ -45,6 +47,8 @@ def contact():
 def signup():
     return render_template('signup.html')
 
+
+
 @app.route('/signup', methods=['POST'])
 def register():
     username = request.form['username']
@@ -52,7 +56,6 @@ def register():
     password = request.form['password']
     confirm_password = request.form['confirm-password']
 
-    # Validation
     if len(username) < 3:
         return render_template('signup.html', message="Username must be at least 3 characters long.")
     
@@ -65,20 +68,13 @@ def register():
     if password != confirm_password:
         return render_template('signup.html', message="Passwords do not match.")
     
-    # Check for duplicates
     if collection.find_one({'email': email}):
         return render_template('signup.html', message="Email already registered.")
     
     if collection.find_one({'username': username}):
         return render_template('signup.html', message="Username already exists.")
     
-    # Save to MongoDB
-    user_data = {
-        'username': username,
-        'email': email,
-        'password': password  # Storing password directly (Not secure)
-    }
-    
+    user_data = {'username': username, 'email': email, 'password': password}
     try:
         collection.insert_one(user_data)
         return redirect(url_for('dataupload'))
@@ -102,6 +98,50 @@ def login_user():
         print(f"Error finding user: {e}")
         return render_template('login.html', message="An error occurred. Please try again later.")
 
+
+# Load the saved model and scaler
+with open("models/scaler.pkl", "rb") as f:
+    scaler = pickle.load(f)
+
+with open("models/feature_names.pkl", "rb") as f:
+    feature_names = pickle.load(f)
+
+with open("models/Random_Forest_Classifier.pkl", "rb") as f:
+    model_rf = pickle.load(f)
+
+risk_mapping = {0: "Low Risk", 1: "Medium Risk", 2: "High Risk"}
+
+@app.route('/predict', methods=['POST'])
+def predict():
+    gender = request.form['gender']
+    tobacco = request.form['tobacco']
+    alcohol = request.form['alcohol']
+    hpv = request.form['hpv']
+    socioeconomic = request.form['socioeconomic']
+    age_group = request.form['age_group']
+    
+    gender_map = {"Male": 0, "Female": 1}
+    yes_no_map = {"Yes": 1, "No": 0}
+    socioeconomic_map = {"Low": 0, "Middle": 1, "High": 2}
+    age_group_map = {"Young": 0, "Middle": 1, "Older": 2}
+
+    input_data = {
+        "Gender_Male": gender_map[gender],
+        "Tobacco_Use_Yes": yes_no_map[tobacco],
+        "Alcohol_Use_Yes": yes_no_map[alcohol],
+        "HPV_Related_Yes": yes_no_map[hpv],
+        "Socioeconomic_Status_Low": 1 if socioeconomic == "Low" else 0,
+        "Age_group_Middle": 1 if age_group == "Middle" else 0
+    }
+
+    input_df = pd.DataFrame([input_data])
+    input_df = input_df.reindex(columns=feature_names[:-1], fill_value=0)
+    input_scaled = scaler.transform(input_df)
+
+    prediction = model_rf.predict(input_scaled)[0]
+    predicted_risk = risk_mapping.get(prediction, "Unknown")
+
+    return render_template('dataupload.html', prediction=predicted_risk)
 
 if __name__ == '__main__':
     app.run(debug=True)

@@ -23,7 +23,13 @@
         <h2>Patient Information</h2>
         <form action="/predict" method="POST">
             <label>Age:</label>
-            <input type="number" name="age" required min="10">
+            <select name="age" required>
+                <option value="">Select</option>
+                <option>Young</option>
+                <option>Middle</option>
+                <option>older</option>
+            </select>
+           
 
             <label>Gender:</label>
             <select name="gender" required>
@@ -72,10 +78,19 @@
             </select>
 
             <input type="hidden" name="imageData" id="imageData">
-
-        
+              
+            <!-- Submit Button -->
+            <div class="submit-btn-container">
+                <button type="submit" class="submit-btn">Get Prediction</button>
+            </div>
         </form>
 
+        <!-- Space to Display Prediction -->
+        <div id="prediction-result" class="prediction-result">
+            <h3>Prediction Result:</h3>
+            <p id="prediction-text">Your prediction will appear here after submission.</p>
+        </div>
+    
         <form action="{{url_for('imageupload')}}" method="GET">
             <div class="submit-btn-container">
                 <button type="submit" class="submit-btn">Next</button>
