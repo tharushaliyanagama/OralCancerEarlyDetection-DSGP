@@ -1,17 +1,16 @@
 body {
     margin: 0;
     padding: 0;
-    background-color:#aaa7a7;
+    background-color: #aaa7a7;
     color: black;
     font-family: Arial, sans-serif;
-    height: 100vh;
+    min-height: 100vh;
     overflow-x: hidden;
     scroll-behavior: smooth;
     display: flex;
     flex-direction: column;
     align-items: center;
     font-weight: bold;
-
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
@@ -23,13 +22,14 @@ header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 35px 30px;
+    padding: 20px 30px;
     background-color: black;
     color: white;
-    position: absolute;
+    position: fixed;
     top: 0;
     left: 0;
     box-sizing: border-box;
+    z-index: 1000;
 }
 
 .logo-container {
@@ -54,57 +54,96 @@ nav a:hover {
     text-decoration: underline;
 }
 
-.content-container {
-    display: flex;
-    width: 50%;
-    height: 100%; /* This stays */
-    margin-top: 150px;
-    background: rgba(249, 249, 249, 0.2); /* Semi-transparent background */
-    box-shadow: 0 6px 20px rgba(0,0,0,0.1);
-    border-radius: 15px;
-    overflow: hidden;
-    margin-bottom: -450px;
-    opacity: 0.9;
-    
-    /* Glass effect */
-    backdrop-filter: blur(10px); /* Blurring the background */
-    -webkit-backdrop-filter: blur(10px); /* For Safari support */
-    border: 1px solid rgba(255, 255, 255, 0.3); /* Subtle border */
+.main-container {
+    width: 95%;
+    max-width: 1600px;
+    margin: 120px auto 80px;
 }
 
+.content-container {
+    display: flex;
+    justify-content: space-between;
+    gap: 30px;
+    margin-bottom: 40px;
+}
+
+.form-section {
+    flex: 1;
+    padding: 30px;
+    background-color: #c6c3c3;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    min-width: 450px;
+    backdrop-filter: blur(5px);
+}
 
 .upload-section {
-    width: 50%; /* Increased the width of the upload section */
+    flex: 1;
+    padding: 30px;
+    background-color: #c6c3c3;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
     display: flex;
-    justify-content: center;
-    align-items: center;
     flex-direction: column;
-    gap: 20px;
-    padding: 20px;
+    align-items: center;
+    min-width: 450px;
+    backdrop-filter: blur(5px);
+    max-height: auto;
+}
+
+h2 {
+    margin-top: 0;
+    color: #070707;
+    font-size: 24px;
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+form label {
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+form input, form select {
+    padding: 12px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-bottom: 15px;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 .upload-placeholder {
-    text-align: center;
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 10px;
+    text-align: center;
+    margin: 20px 0;
 }
 
 .upload-placeholder img {
-    width: 100px;
-    height: 100px;
-    object-fit: cover;
+    width: 200px;
+    height: 200px;
+    object-fit: contain;
+    margin-bottom: 15px;
 }
 
 .browse-btn {
     background-color: orange;
     border: none;
-    padding: 10px 20px;
+    padding: 12px 25px;
     color: white;
-    font-size: 14px;
+    font-size: 16px;
     cursor: pointer;
     border-radius: 5px;
+    transition: background-color 0.3s;
 }
 
 .browse-btn:hover {
@@ -112,11 +151,26 @@ nav a:hover {
 }
 
 .image-container {
-    text-align: center;
-    display: flex;
+    display: none;
     flex-direction: column;
     align-items: center;
-    gap: 10px;
+    width: 100%;
+}
+
+#chosenImage {
+    max-width: 100%;
+    max-height: 450px;
+    object-fit: contain;
+    margin-bottom: 20px;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+}
+
+.button-group {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    width: 100%;
 }
 
 .change-btn {
@@ -124,75 +178,37 @@ nav a:hover {
     border: none;
     padding: 10px 20px;
     color: white;
-    font-size: 14px;
+    font-size: 16px;
     cursor: pointer;
     border-radius: 5px;
+    transition: background-color 0.3s;
 }
 
 .change-btn:hover {
     background-color: darkorange;
 }
 
-input[type="file"] {
-    margin: 15px 0;
-}
-
-#preview {
-    margin-top: 15px;
-    width: 150px;
-    height: 150px;
-    object-fit: cover;
-    border: 2px solid #ddd;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-    display: none;
-}
-
-.form-section {
-    width: 94%; /* Adjusted form section width */
+.prediction-container {
+    width: calc(100% - 60px);
+    max-width: 1200px;
     padding: 30px;
     background-color: #c6c3c3;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    overflow-y: auto;
-    max-height: 1000px;
-    box-sizing: border-box;
-    height: 95%;
-    opacity: 0.9;
-   margin-top: 20px;
-   border-radius: 3px;
+    border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-    border: 1px solid rgb(94, 92, 92); /* Subtle border */
-    margin-left: 20px;
-    margin-right: -150px;
-    
-    
-}
-
-
-form {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-    margin-bottom: 20px;
-    
-}
-
-form label {
-    font-weight: bold;
-}
-
-form input, form select {
-    padding: 8px;
-    font-size: 14px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-}
-
-.submit-btn-container {
-    margin-top: 20px;
+    margin: 20px auto 0;
+    backdrop-filter: blur(5px);
     text-align: center;
+}
+
+.prediction-result {
+    margin-bottom: 20px;
+}
+
+.action-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 20px;
 }
 
 .submit-btn {
@@ -203,74 +219,76 @@ form input, form select {
     cursor: pointer;
     font-size: 16px;
     border-radius: 5px;
-    transition: backgroundcolor  0.3s ease;
+    transition: background-color 0.3s;
 }
 
 .submit-btn:hover {
     background-color: #04a133;
 }
-h2 {
-    margin-top: 0;
-    color: #070707;
-    font-size: 24px;
-    align-self: center;
-}
 
-#uploadedImage {
-    display: block;
-    margin: 0 auto;
-    border: 3px solid #ddd;
-    border-radius: 8px;
-}
-
-/* Probability and Caution Box */
-.probability-box {
-    border: 2px solid #333;
-    padding: 15px;
-    margin-bottom: 15px;
-    background-color: #f1f1f1;
-    border-radius: 8px;
-    text-align: center;
-}
-
-.caution-line {
-    height: 20px;
+.download-btn {
+    padding: 12px 30px;
+    background-color: #4285f4;
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
     border-radius: 5px;
-    margin-top: 10px;
+    transition: background-color 0.3s;
 }
 
-#probabilityText {
-    font-size: 18px;
+.download-btn:hover {
+    background-color: #3367d6;
+}
+
+#prediction-text {
     font-weight: bold;
-    margin: 0;
-}
-
-p {
+    color: #333;
     font-size: 18px;
-    line-height: 1.8;
-    color: #0c0c0c;
-    margin-bottom: 25px;
-    font-weight: bold;
 }
 
-.footer p {
-    
-        margin-top: 15px;
-        font-size: 14px;
-        font-weight: bold;
-        color: white;
-}
-
-/* Footer Styling */
 footer {
     width: 100%;
     background-color: black;
     color: white;
     text-align: center;
     padding: 15px 0;
-    position:absolute;
+    position: relative;
     bottom: 0;
-    left: 0;
-    margin-top: 40px;
-    margin-bottom: -300px;
+    margin-top: auto;
+}
+
+@media (max-width: 1200px) {
+    .content-container {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .form-section, .upload-section {
+        width: 60%;
+        min-width: auto;
+        max-width: none;
+    }
+    
+    .upload-section {
+        order: 1;
+    }
+    
+    .form-section {
+        order: 2;
+    }
+    
+    .prediction-container {
+        order: 3;
+    }
+    
+    .action-buttons {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .submit-btn, .download-btn {
+        width: 100%;
+        max-width: 300px;
+    }
 }
