@@ -4,20 +4,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>OralCheck</title>
-    <link rel="stylesheet" href="C:\Users\Sithmi Nimnadi\Desktop\DSGP UI\static\CSS\report.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='CSS/report.css') }}">
     
 </head>
-<body background="C:\Users\Sithmi Nimnadi\Desktop\DSGP UI\static\images\background image.jpg">
+<body background="{{ url_for('static', filename='images/background image.jpg') }}">
 
 <header>
     <div class="logo-container">
         <div class="logo">OncoOral AI</div>
-        <img src="C:\Users\Sithmi Nimnadi\Desktop\DSGP UI\static\images\ribbon3.jpg" alt="Logo" width="40" height="45">
+        <img src="{{ url_for('static', filename='images/ribbon3.jpg') }}" alt="Logo" width="40" height="45">
     </div>
     <nav>
-        <a href="C:\Users\Sithmi Nimnadi\Desktop\DSGP UI\templates\home.html" target="_blank">Home</a>
-        <a href="C:\Users\Sithmi Nimnadi\Desktop\DSGP UI\templates\login.html" target="_blank">Login</a>
-        <a href="contact.html" target="_blank">Contact</a>
+        <a href="{{url_for('home')}}" target="_blank">Home</a>
+        <a href="{{url_for('login')}}" target="_blank">Login</a>
+        <a href="{{url_for('contact')}}" target="_blank">Contact</a>
     </nav>
 </header>
 
@@ -50,11 +50,30 @@
     
 </div>
 
-<script src="{{ url_for('static/javascript', filename='report.js')}}"></script>
+<script >
+window.onload = function() {
+    const imageSrc = 'heatmap_Example.jpeg';
+    const probability = 45;
+    const description = "This heatmap highlights the areas that were most important for the AI’s classification. The red and yellow regions indicate zones of high attention, meaning the AI found potential signs of abnormality in these areas. These patterns could correspond to lesions, discoloration, or irregular textures commonly associated with oral cancer. Green or blue areas had less influence, indicating the AI considered them less relevant to the prediction.";
+
+    document.getElementById('uploadedImage').src = imageSrc;
+    document.getElementById('probabilityText').innerText = `Probability: ${probability}%`;
+    document.getElementById('descriptionText').innerText = description;
+
+    const cautionLine = document.getElementById('cautionLine');
+    if (probability > 75) {
+        cautionLine.style.backgroundColor = 'red';
+    } else if (probability > 40) {
+        cautionLine.style.backgroundColor = 'orange';
+    } else {
+        cautionLine.style.backgroundColor = 'green';
+    }
+};
+</script>
 
 <!-- Recommendation Section -->
 <div class="Recommendation button">
-    <a href="C:\Users\Sithmi Nimnadi\Desktop\DSGP UI\templates\recommendation.html" class="btn">View Recommendations</a>
+    <a href="{{url_for('recommendation')}}" class="btn">View Recommendations</a>
 </div>
 </body>
 
