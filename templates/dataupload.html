@@ -1,7 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>OralCheck AI</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OncoOral AI - Comprehensive Risk Assessment</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='CSS/dataupload.css') }}">
 </head>
 <body background="{{ url_for('static', filename='images/background image.jpg') }}">
@@ -18,120 +20,188 @@
     </nav>
 </header>
 
-<div class="content-container">
-    <section class="form-section">
-        <h2>Patient Information</h2>
-        <form id="prediction-form">
-            <label>Age:</label>
-            <select name="age_group" required>
-                <option value="">Select</option>
-                <option value="young">Young</option>
-                <option value="middle">Middle</option>
-                <option value="older">Older</option>
-            </select>
-
-            <label>Gender:</label>
-            <select name="gender" required>
-                <option value="">Select</option>
-                <option value="female">Female</option>
-                <option value="male">Male</option>
-            </select>
-
-            <label>Tobacco Use:</label>
-            <select name="tobacco" required>
-                <option value="">Select</option>
-                <option value="yes">Yes</option>
-                <option value="no">No</option>
-            </select>
-
-            <label>Alcohol Use:</label>
-            <select name="alcohol" required>
-                <option value="">Select</option>
-                <option value="yes">Yes</option>
-                <option value="no">No</option>
-            </select>
-
-            <label>Socio-economic Status:</label>
-            <select name="socioeconomic" required>
-                <option value="">Select</option>
-                <option value="high">High</option>
-                <option value="middle">Middle</option>
-                <option value="low">Low</option>
-            </select>
-
-            
-
-
-
-            <label>HPV (Human Papillomavirus) Status:</label>
-            <select name="hpv" required>
-                <option value="">Select</option>
-                <option value="yes">Yes</option>
-                <option value="no">No</option>
-            </select>
-
-            <label>Continent :</label>
-            <select name="continent" required>
-                <option value="">Select</option>
-                <option value="asia">Asia</option>
-                <option value="europe">Europe</option>
-                <option value="africa">Africa</option>
-                <option value="north america">North America</option>
-                <option value="south america">South America</option>
-            </select>
-
-            <div class="submit-btn-container">
-                <button type="submit" class="submit-btn" value="Predict Risk">Get Prediction</button>
+<div class="main-container">
+    <div class="content-container">
+        <!-- Image Upload Section (Left) -->
+        <section class="upload-section">
+            <h2>Upload Oral Image</h2>
+            <div id="uploadPlaceholder" class="upload-placeholder">
+                <img id="fileUpload" src="{{ url_for('static', filename='images/file.jpg') }}" alt="File Upload Icon">
+                <p>Upload oral image here</p>
+                <button class="browse-btn" onclick="document.getElementById('imageUpload').click()">Browse</button>
             </div>
-        </form>
 
+            <div id="imageContainer" class="image-container" style="display: none;">
+                <img id="chosenImage" alt="Chosen Image">
+                <div class="button-group">
+                    <button class="change-btn" onclick="changeImage()">Change</button>
+                </div>
+            </div>
+            <input type="file" id="imageUpload" accept="image/*" style="display: none;" onchange="previewImage()">
+        </section>
+
+        <!-- Patient Information Section (Right) -->
+        <section class="form-section">
+            <h2>Patient Information</h2>
+            <form id="prediction-form">
+                <label>Age:</label>
+                <select name="age_group" required>
+                    <option value="">Select</option>
+                    <option value="young">Young</option>
+                    <option value="middle">Middle</option>
+                    <option value="older">Older</option>
+                </select>
+
+                <label>Gender:</label>
+                <select name="gender" required>
+                    <option value="">Select</option>
+                    <option value="female">Female</option>
+                    <option value="male">Male</option>
+                </select>
+
+                <label>Tobacco Use:</label>
+                <select name="tobacco" required>
+                    <option value="">Select</option>
+                    <option value="yes">Yes</option>
+                    <option value="no">No</option>
+                </select>
+
+                <label>Alcohol Use:</label>
+                <select name="alcohol" required>
+                    <option value="">Select</option>
+                    <option value="yes">Yes</option>
+                    <option value="no">No</option>
+                </select>
+
+                <label>Socio-economic Status:</label>
+                <select name="socioeconomic" required>
+                    <option value="">Select</option>
+                    <option value="high">High</option>
+                    <option value="middle">Middle</option>
+                    <option value="low">Low</option>
+                </select>
+
+                <label>HPV (Human Papillomavirus) Status:</label>
+                <select name="hpv" required>
+                    <option value="">Select</option>
+                    <option value="yes">Yes</option>
+                    <option value="no">No</option>
+                </select>
+
+                <label>Continent:</label>
+                <select name="continent" required>
+                    <option value="">Select</option>
+                    <option value="asia">Asia</option>
+                    <option value="europe">Europe</option>
+                    <option value="africa">Africa</option>
+                    <option value="north america">North America</option>
+                    <option value="south america">South America</option>
+                </select>
+            </form>
+        </section>
+    </div>
+
+    <!-- Prediction Result Section -->
+    <section class="prediction-container">
         <div id="prediction-result" class="prediction-result">
             <h3>Prediction Result:</h3>
             <p id="prediction-text">Your prediction will appear here after submission.</p>
         </div>
-
-        <form action="{{url_for('imageupload')}}" method="GET">
-            <div class="submit-btn-container">
-                <button type="submit" class="submit-btn">Next</button>
-            </div>
-        </form>
+        <div class="action-buttons">
+            <button type="submit" class="submit-btn" id="final-submit">Submit All Data</button>
+            <button class="download-btn" id="download-report">Download Report</button>
+            <a href="/report" class="download-btn" id="view-report">View Full Report</a>
+        </div>
     </section>
 </div>
 
 <script>
-document.addEventListener("DOMContentLoaded", function () {
-    const form = document.getElementById("prediction-form");
+    // Image Preview Functionality
+    function previewImage() {
+        const input = document.getElementById('imageUpload');
+        const imageContainer = document.getElementById('imageContainer');
+        const uploadPlaceholder = document.getElementById('uploadPlaceholder');
+        const chosenImage = document.getElementById('chosenImage');
 
-    form.addEventListener("submit", function (event) {
-        event.preventDefault(); // Prevent form from submitting the default way
+        if (input.files && input.files[0]) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                chosenImage.src = e.target.result;
+                imageContainer.style.display = 'block';
+                uploadPlaceholder.style.display = 'none';
+            };
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
 
-        const formData = new FormData(form);
+    function changeImage() {
+        document.getElementById('imageUpload').value = '';
+        document.getElementById('imageContainer').style.display = 'none';
+        document.getElementById('uploadPlaceholder').style.display = 'block';
+    }
+
+    // Form Submission Handling
+    document.getElementById('final-submit').addEventListener('click', function() {
+        const formData = new FormData(document.getElementById('prediction-form'));
+        const imageInput = document.getElementById('imageUpload');
+        
+        if (imageInput.files && imageInput.files[0]) {
+            formData.append('oral_image', imageInput.files[0]);
+        }
 
         fetch("/predict", {
             method: "POST",
             body: formData
         })
-        .then(response => response.json())  // Convert response to JSON
+        .then(response => response.json())
         .then(data => {
             if (data.prediction) {
-                document.getElementById("prediction-text").textContent = "Risk Level: " + data.prediction;
+                document.getElementById('prediction-text').textContent = "Risk Level: " + data.prediction;
             } else if (data.error) {
-                document.getElementById("prediction-text").textContent = "Error: " + data.error;
+                document.getElementById('prediction-text').textContent = "Error: " + data.error;
             }
         })
         .catch(error => {
-            document.getElementById("prediction-text").textContent = "Prediction failed. Try again.";
+            document.getElementById('prediction-text').textContent = "Submission failed. Try again.";
             console.error("Error:", error);
         });
     });
-});
-</script>
 
-</body>
+    // Download Report Functionality
+    document.getElementById('download-report').addEventListener('click', function() {
+        const predictionText = document.getElementById('prediction-text').textContent;
+        const formData = new FormData(document.getElementById('prediction-form'));
+        
+        let reportContent = `OncoOral AI Risk Assessment Report\n\n`;
+        reportContent += `Prediction Result:\n${predictionText}\n\n`;
+        reportContent += `Patient Information:\n`;
+        
+        // Add form data to report
+        for (let [key, value] of formData.entries()) {
+            reportContent += `${key}: ${value}\n`;
+        }
+        
+        // Create download link
+        const blob = new Blob([reportContent], { type: 'text/plain' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'OncoOral_AI_Report.txt';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+    });
+
+    function redirectToReport() {
+        window.location.href = "templates\report.html"; 
+    }
+</script>
 
 <footer>
     <div class="footer">
         <p>© 2025 OncoOral AI. All rights reserved.</p>
     </div>
 </footer>
+
 </html>
