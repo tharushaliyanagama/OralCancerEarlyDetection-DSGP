@@ -47,7 +47,13 @@ def contact():
 def signup():
     return render_template('signup.html')
 
+@app.route('/report')
+def report():
+    return render_template('report.html')
 
+@app.route('/recommendation')
+def recommendation():
+    return render_template('recommendation.html')
 
 @app.route('/signup', methods=['POST'])
 def register():
@@ -166,8 +172,6 @@ def predict():
     except Exception as e:
         return jsonify({"error": str(e)})
 
-
-   
 
 if __name__ == '__main__':
     app.run(debug=True)
