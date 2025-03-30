@@ -4,19 +4,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>OralCheck</title>
-    <link rel="stylesheet" href="C:\Users\Sithmi Nimnadi\Desktop\DSGP UI\static\CSS\recommendation.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='CSS/recommendation.css') }}">
 </head>
-<body background="C:\Users\Sithmi Nimnadi\Desktop\DSGP UI\static\images\background image.jpg">
+<body background="{{ url_for('static', filename='images/background image.jpg') }}">
 
 <header>
     <div class="logo-container">
         <div class="logo">OncoOral AI</div>
-        <img src="C:\Users\Sithmi Nimnadi\Desktop\DSGP UI\static\images\ribbon3.jpg" alt="Logo" width="40" height="45">
+        <img src="{{ url_for('static', filename='images/ribbon3.jpg') }}" alt="Logo" width="40" height="45">
     </div>
     <nav>
-        <a href="C:\Users\Sithmi Nimnadi\Desktop\DSGP UI\templates\home.html" target="_blank">Home</a>
-        <a href="C:\Users\Sithmi Nimnadi\Desktop\DSGP UI\templates\login.html" target="_blank">Login</a>
-        <a href="contact.html" target="_blank">Contact</a>
+        <a href="{{url_for('home')}}" target="_blank">Home</a>
+        <a href="{{url_for('login')}}" target="_blank">Login</a>
+        <a href="{{url_for('contact')}}" target="_blank">Contact</a>
     </nav>
 </header>
 
@@ -57,7 +57,7 @@
             </div>
             <div class="report-content">
                 <p>Venue: Asiri Hospital</p>
-                <p>Phone: (+94)) 987-6543</p>
+                <p>Phone: (+94) 987-6543</p>
                 <p>Email: jaliya@gmail.com</p>
             </div>
         </div>
