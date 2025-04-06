@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>OralCheck - Log In</title>
+        <link rel="stylesheet" href="{{ url_for('static', filename='CSS/login.css') }}">
+    </head>
+    <body background="{{ url_for('static', filename='images/background image.jpg') }}">
+    
+    <header>
+        <div class="logo-container">
+            <div class="logo">OncoOral AI</div>
+            <img src="{{ url_for('static', filename='images/ribbon3.jpg') }}" alt="Logo" width="40" height="45">
+        </div>
+        <nav>
+            <a href="{{url_for('home')}}">Home</a>
+            <a href="{{url_for('login')}}">Login</a>
+            <a href="{{url_for('contact')}}">Contact</a>
+        </nav>
+    </header>
+
+
+    <div class="login-box">
+        <h2>Login</h2>
+        <form action="/login" method="POST">
+            <div class="input-field">
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+
+            <div class="input-field">
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" required>
+            </div>
+
+            <div class="button-container">
+                <a href="{{url_for('dataupload')}}"></a>
+                <button type="submit">Login</button>
+            </div>
+
+            <p>Don't have an account? <a href="{{url_for('signup')}}">Register here</a></p>
+        </form>
+    </div>
+
+
+</body>
+
+<footer>
+    <div class="footer">
+        <p>© 2025 OncoOral AI. All rights reserved.</p>
+    </div>
+</footer>
+</html>

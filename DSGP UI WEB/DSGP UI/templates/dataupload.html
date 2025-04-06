@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OncoOral AI - Comprehensive Risk Assessment</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='CSS/dataupload.css') }}">
+</head>
+<body background="{{ url_for('static', filename='images/background image.jpg') }}">
+
+<header>
+    <div class="logo-container">
+        <div class="logo">OncoOral AI</div>
+        <img src="{{ url_for('static', filename='images/ribbon3.jpg') }}" alt="Logo" width="40" height="45">
+    </div>
+    <nav>
+        <a href="{{url_for('home')}}">Home</a>
+        <a href="{{url_for('login')}}">Login</a>
+        <a href="{{url_for('contact')}}">Contact</a>
+    </nav>
+</header>
+
+<div class="main-container">
+    <div class="content-container">
+        <!-- Image Upload Section (Left) -->
+        <section class="upload-section">
+            <h2>Upload Oral Image</h2>
+            <div id="uploadPlaceholder" class="upload-placeholder">
+                <img id="fileUpload" src="{{ url_for('static', filename='images/file.jpg') }}" alt="File Upload Icon">
+                <p>Upload oral image here</p>
+                <button class="browse-btn" onclick="document.getElementById('imageUpload').click()">Browse</button>
+            </div>
+
+            <div id="imageContainer" class="image-container" style="display: none;">
+                <img id="chosenImage" alt="Chosen Image">
+                <div class="button-group">
+                    <button class="change-btn" onclick="changeImage()">Change</button>
+                    <button class="submit-btn" id="get-image-prediction">Get Prediction</button>
+                </div>
+            </div>
+            <input type="file" id="imageUpload" accept="image/*" style="display: none;" onchange="previewImage()">
+
+            <div class="prediction-result" id="image-prediction-box">
+                <p id="prediction-text">Your prediction will appear here after submission.</p>
+            </div>
+        </section>
+
+        <!-- Patient Information Section (Right) -->
+        <section class="form-section">
+            <h2>Patient Information</h2>
+            <form id="prediction-form">
+
+                <label>Gender:</label>
+                <select name="gender" required>
+                    <option value="">Select</option>
+                    <option value="female">Female</option>
+                    <option value="male">Male</option>
+                </select>
+
+                <label>Tobacco Use:</label>
+                <select name="tobacco" required>
+                    <option value="">Select</option>
+                    <option value="yes">Yes</option>
+                    <option value="no">No</option>
+                </select>
+
+                <label>Alcohol Use:</label>
+                <select name="alcohol" required>
+                    <option value="">Select</option>
+                    <option value="yes">Yes</option>
+                    <option value="no">No</option>
+                </select>
+
+                <label>HPV (Human Papillomavirus) Status:</label>
+                <select name="hpv" required>
+                    <option value="">Select</option>
+                    <option value="yes">Yes</option>
+                    <option value="no">No</option>
+                </select>
+
+                <label>Socio-economic Status:</label>
+                <select name="socioeconomic" required>
+                    <option value="">Select</option>
+                    <option value="high">High</option>
+                    <option value="middle">Middle</option>
+                    <option value="low">Low</option>
+                </select>
+
+                <label>Age:</label>
+                <select name="age_group" required>
+                    <option value="">Select</option>
+                    <option value="young">Young</option>
+                    <option value="middle">Middle</option>
+                    <option value="older">Older</option>
+                </select>
+
+            </form>
+
+            <button type="button" class="submit-btn" id="predict-btn">Get Prediction</button>
+
+            <div id="inline-prediction" class="prediction-result">
+                <h4>Prediction:</h4>
+                <p id="inline-prediction-text">Awaiting input...</p>
+            </div>                    
+
+        </section>
+    </div>
+    
+    <!-- Final Result and Navigation Section -->
+    <div class="final-container">
+        <h3>Final Multi-Modal Result</h3>
+        <div class="result-bar">
+            <p id="final-result-bar">Click "Final Result" to generate your complete risk assessment.</p>
+        </div>
+        <div class="action-buttons">
+            <button class="submit-btn" onclick="getFinalResult()">Final Result</button>
+            <button class="download-btn" onclick="window.location.href='/report'">View Report</button>
+            <button class="download-btn" onclick="window.location.href='/recommendation'">Get Recommendations</button>
+        </div>
+    </div>
+</div>
+
+<script>
+
+    function getFinalResult() {
+        const mlConfidence = localStorage.getItem("ml_confidence");
+        const cnnConfidence = localStorage.getItem("cnn_confidence");
+        
+
+        if (!mlConfidence || !cnnConfidence) {
+            document.getElementById("final-result-bar").textContent = "Missing ML or CNN prediction. Please complete both first.";
+            return;
+        }
+    
+        const mlConf = parseFloat(mlConfidence.replace('%', '')) / 100;
+        const cnnConf = parseFloat(cnnConfidence.replace('%', '')) / 100;
+    
+        fetch('/multi_model_predict', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ text_pred: mlConf, image_pred: cnnConf })
+        })
+        .then(res => res.json())
+        .then(data => {
+            document.getElementById("final-result-bar").innerHTML =
+                `<strong>Multi-modal Risk Level:</strong> ${data.prediction}<br>
+                 <strong>Confidence:</strong> ${data.confidence}<br>
+                 <strong>ML Risk:</strong> ${localStorage.getItem("ml_prediction")} (${mlConfidence})<br>
+                 <strong>CNN Prediction:</strong> ${localStorage.getItem("cnn_prediction")} (${cnnConfidence})`;
+        })
+        .catch(err => {
+            console.error("Error with multi-modal prediction:", err);
+            document.getElementById("final-result-bar").textContent = "Failed to get multi-modal prediction.";
+        });
+    }
+    
+        // Show image preview and call prediction function
+        async function previewImage() {
+            const input = document.getElementById("imageUpload");
+            const imageContainer = document.getElementById("imageContainer");
+            const uploadPlaceholder = document.getElementById("uploadPlaceholder");
+            const chosenImage = document.getElementById("chosenImage");
+    
+            if (input.files && input.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    chosenImage.src = e.target.result;
+                    imageContainer.style.display = "block";
+                    uploadPlaceholder.style.display = "none";
+                };
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        // On click of "Get Prediction" button
+        document.getElementById("get-image-prediction").addEventListener("click", function () {
+            const input = document.getElementById("imageUpload");
+            if (input.files && input.files[0]) {
+                sendImageForPrediction(input.files[0]);
+            } else {
+                document.getElementById("prediction-text").innerHTML = `<strong>Error:</strong> No image selected.`;
+            }
+        });        
+    
+        // Sends image to backend and displays prediction result
+        async function sendImageForPrediction(imageFile) {
+            let formData = new FormData();
+            formData.append("file", imageFile);
+    
+            try {
+                let response = await fetch("/process_image", {
+                    method: "POST",
+                    body: formData
+                });
+    
+                let result = await response.json();
+    
+                const predictionText = document.getElementById("prediction-text");
+    
+                if (response.ok) {
+                    predictionText.innerHTML =
+                        `<strong>Image Result:</strong> ${result.result} <br>
+                         <strong>Confidence:</strong> ${result.confidence}`;
+
+                         // Save to localStorage for report view
+                        localStorage.setItem("cnn_prediction", result.result);
+                        localStorage.setItem("cnn_confidence", result.confidence);
+                } else {
+                    predictionText.innerHTML = `<strong>Error:</strong> ${result.result}`;
+                }
+            } catch (error) {
+                console.error("Error:", error);
+                document.getElementById("prediction-text").innerHTML = `<strong>Error:</strong> Failed to get prediction.`;
+            }
+        }
+    
+        // Reset image and prediction text
+        function changeImage() {
+            document.getElementById("imageUpload").value = "";
+            document.getElementById("imageContainer").style.display = "none";
+            document.getElementById("uploadPlaceholder").style.display = "block";
+            document.getElementById("prediction-text").innerHTML = "Your prediction will appear here after submission.";
+        }
+
+        
+            // Prediction triggered by "Get Prediction" button (Patient Info section)
+            document.getElementById('predict-btn').addEventListener('click', function () {
+                const formData = new FormData(document.getElementById('prediction-form'));
+            
+                fetch("/predict", {
+                    method: "POST",
+                    body: formData
+                })
+                .then(response => response.json())
+                .then(data => {
+                    const resultEl = document.getElementById('inline-prediction-text');
+                    if (data.prediction && data.confidence) {
+                        resultEl.innerHTML = `<strong>Risk:</strong> ${data.prediction} <br><strong>Confidence:</strong> ${data.confidence}`;
+
+                        // 🔐 Save data to localStorage
+                        localStorage.setItem("ml_prediction", data.prediction);
+                        localStorage.setItem("ml_confidence", data.confidence);
+
+                                                
+                    } else if (data.error) {
+                        resultEl.textContent = "Error: " + data.error;
+                    }
+                })
+                .catch(error => {
+                    document.getElementById('inline-prediction-text').textContent = "Prediction failed. Please try again.";
+                    console.error("Error:", error);
+                });
+            });
+            
+            // You can still use this function elsewhere if needed
+            function submitTextDataOnly() {
+                const formData = new FormData(document.getElementById('prediction-form'));
+            
+                fetch("/predict", {
+                    method: "POST",
+                    body: formData
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.prediction && data.confidence) {
+                        document.getElementById('ml-risk-bar').innerHTML = `${data.prediction} - ${data.confidence}`;
+
+                        // 🔐 Save data to localStorage
+                        localStorage.setItem("ml_prediction", data.prediction);
+                        localStorage.setItem("ml_confidence", data.confidence);
+
+
+                    } else if (data.error) {
+                        document.getElementById('ml-risk-bar').textContent = "Error: " + data.error;
+                    }
+                })
+                .catch(error => {
+                    document.getElementById('ml-risk-bar').textContent = "Error: Prediction failed.";
+                    console.error("Error:", error);
+                });
+            }
+            
+            
+
+// Keep the original Submit All Data logic
+document.getElementById('final-submit').addEventListener('click', function() {
+    const formData = new FormData(document.getElementById('prediction-form'));
+    const imageInput = document.getElementById('imageUpload');
+
+    if (imageInput && imageInput.files && imageInput.files[0]) {
+        formData.append('oral_image', imageInput.files[0]);
+    }
+
+    fetch("/predict", {
+        method: "POST",
+        body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.prediction) {
+            document.getElementById('prediction-text').textContent = "Risk Level: " + data.prediction;
+        } else if (data.error) {
+            document.getElementById('prediction-text').textContent = "Error: " + data.error;
+        }
+    })
+    .catch(error => {
+        document.getElementById('prediction-text').textContent = "Submission failed. Try again.";
+        console.error("Error:", error);
+    });
+});
+
+
+    // Form Submission Handling
+    document.getElementById('final-submit').addEventListener('click', function() {
+        const formData = new FormData(document.getElementById('prediction-form'));
+        const imageInput = document.getElementById('imageUpload');
+        
+        if (imageInput.files && imageInput.files[0]) {
+            formData.append('oral_image', imageInput.files[0]);
+        }
+
+        fetch("/predict", {
+            method: "POST",
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.prediction) {
+                document.getElementById('prediction-text').textContent = "Risk Level: " + data.prediction;
+            } else if (data.error) {
+                document.getElementById('prediction-text').textContent = "Error: " + data.error;
+            }
+        })
+        .catch(error => {
+            document.getElementById('prediction-text').textContent = "Submission failed. Try again.";
+            console.error("Error:", error);
+        
+
+        });
+    });
+
+    // Download Report Functionality
+    document.getElementById('download-report').addEventListener('click', function() {
+        const predictionText = document.getElementById('prediction-text').textContent;
+        const formData = new FormData(document.getElementById('prediction-form'));
+        
+        let reportContent = `OncoOral AI Risk Assessment Report\n\n`;
+        reportContent += `Prediction Result:\n${predictionText}\n\n`;
+        reportContent += `Patient Information:\n`;
+        
+        // Add form data to report
+        for (let [key, value] of formData.entries()) {
+            reportContent += `${key}: ${value}\n`;
+        }
+        
+        // Create download link
+        const blob = new Blob([reportContent], { type: 'text/plain' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'OncoOral_AI_Report.txt';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+    });
+
+    function redirectToReport() {
+        window.location.href = "templates\report.html"; 
+    }
+</script>
+
+<footer>
+    <div class="footer">
+        <p>© 2025 OncoOral AI. All rights reserved.</p>
+    </div>
+</footer>
+
+</html>
