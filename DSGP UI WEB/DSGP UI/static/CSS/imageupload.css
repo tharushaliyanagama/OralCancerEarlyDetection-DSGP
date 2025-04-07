@@ -1,0 +1,231 @@
+body {
+    margin: 0;
+    padding: 0;
+    background-color:#aaa7a7;
+    color: black;
+    font-family: Arial, sans-serif;
+    height: 100vh;
+    overflow-x: hidden;
+    scroll-behavior: smooth;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-weight: bold;
+
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-attachment: fixed;
+}
+
+p {
+    font-size: 18px;
+    line-height: 1.8;
+    color: #0c0c0c;
+    margin-bottom: 25px;
+    font-weight: bold;
+}
+
+.footer p {
+    
+    margin-top: 15px;
+    font-size: 14px;
+    font-weight: bold;
+    color: white;
+}
+
+header {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 35px 30px;
+    background-color: black;
+    color: white;
+    position: absolute;
+    top: 0;
+    left: 0;
+    box-sizing: border-box;
+}
+
+.logo-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.logo {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+nav a {
+    color: white;
+    text-decoration: none;
+    margin-left: 20px;
+    font-size: 16px;
+}
+
+nav a:hover {
+    text-decoration: underline;
+}
+
+/* Parent container to hold both sections side by side */
+.content-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 40px; /* Space between the two containers */
+    margin: 20px;
+    width: auto;
+    margin:200px auto;
+    height: auto;
+
+    /* Glass effect styles */
+    background: rgba(255, 255, 255, 0.2); /* Semi-transparent white background */
+    backdrop-filter: blur(10px); /* Blur effect */
+    -webkit-backdrop-filter: blur(10px); /* For Safari support */
+    border: 1px solid rgba(255, 255, 255, 0.3); /* Subtle border */
+    border-radius: 10px; /* Rounded corners */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    padding: 20px; /* Optional padding inside the container */
+    background-size: cover; /* Ensure the background covers the entire area */
+    background-position: center; /* Keep the background centered */
+    background-repeat: no-repeat;
+}
+
+
+
+/* Style for the upload-section */
+.upload-section {
+    flex: 1; /* Allow it to take up equal space */
+    padding: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #ccc;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Ensure images and content fit well */
+.upload-placeholder img,
+.image-container img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin-top: 40px;
+    margin-left: 190px;
+    margin-right :190px;;
+}
+.browse-btn {
+    background-color: orange;
+    border: none;
+    padding: 10px 20px;
+    color: white;
+    font-size: 14px;
+    cursor: pointer;
+    border-radius: 5px;
+    display: block; 
+    margin: 20px auto;
+}
+
+.browse-btn:hover {
+    background-color: darkorange;
+}
+
+.image-container {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+.change-btn {
+    background-color: orange;
+    border: none;
+    padding: 10px 20px;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 5px;
+    margin-top: 10px;
+}
+
+.change-btn:hover {
+    background-color: darkorange;
+}
+
+input[type="file"] {
+    margin: 15px 0;
+}
+
+#preview {
+    margin-top: 15px;
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    display: none;
+}
+
+
+
+.submit-btn-container {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.submit-btn {
+    padding: 10px 20px;
+    background-color: rgb(48, 223, 48);
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    border-radius: 5px;
+    transition: backgroundcolor  0.3s ease;
+    margin-top: 10px;
+    margin-left: 50px;
+}
+
+.submit-btn:hover {
+    background-color: #04a133;
+}
+h2 {
+    margin-top: 0;
+    color: #070707;
+    font-size: 24px;
+    align-self: center;
+}
+
+#uploadedImage {
+    display: block;
+    margin: 0 auto;
+    border: 3px solid #ddd;
+    border-radius: 8px;
+
+}
+
+/* Footer Styling */
+footer {
+    width: 100%;
+    background-color: black;
+    color: white;
+    text-align: center;
+    padding: 15px 0;
+    position:absolute;
+    bottom: 0;
+    left: 0;
+    margin-top: 40px;
+    margin-bottom: -300px;
+}
+
+p, h2, label, input, select, #probabilityText {
+    text-align: center;
+}
+
+
+
+
