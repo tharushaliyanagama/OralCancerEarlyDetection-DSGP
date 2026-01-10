@@ -27,14 +27,18 @@ from werkzeug.utils import secure_filename
 import matplotlib.pyplot as plt
 import matplotlib
 matplotlib.use('Agg')  
+from dotenv import load_dotenv
+
+
 
 
 
 app = Flask(__name__)
-app.secret_key = 'your_secret_key_here'
+app.secret_key = os.getenv("FLASK_SECRET_KEY")
+load_dotenv()
 
 # MongoDB Connection
-MONGO_URI = "mongodb+srv://tharusha:tharusharocks123@cluster0.ikcamcj.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
+MONGO_URI = os.getenv("MONGO_URI")
 client = MongoClient(MONGO_URI, server_api=ServerApi('1'))
 db = client['User_Details']
 collection = db['users']
